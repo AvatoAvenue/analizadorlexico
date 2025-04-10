@@ -14,69 +14,96 @@ def create_jff_automaton(token, er):
     ET.SubElement(initial_state, "initial")
 
     state_id = 1
-    alternatives = er.split("|")
-    max_length = max(len(alt.strip()) for alt in alternatives) if alternatives else 0
-    last_states = []
+    alternatives = [alt.strip() for alt in er.split("|") if alt.strip()]
+    
+    if not alternatives:
+        return  # Si no hay alternativas válidas, no crear autómata
 
-    for idx, alt in enumerate(alternatives):
-        alt = alt.strip()
-        if not alt:
-            continue
+    num_alt = len(alternatives)
 
-        # Crear estado inicial para la alternativa
-        branch_start = state_id
-        state = ET.SubElement(automaton, "state", id=str(branch_start))
-        ET.SubElement(state, "x").text = "100"
-        ET.SubElement(state, "y").text = str(idx * 100)
-        state_id += 1
+    if num_alt == 1:
+        # Procesar única alternativa sin épsilon
+        alt = alternatives[0]
+        current_state = 0  # Comienza en el estado inicial
 
-        # Transición épsilon desde el estado inicial al incio de la alternativa
-        transition = ET.SubElement(automaton, "transition")
-        ET.SubElement(transition, "from").text = "0"
-        ET.SubElement(transition, "to").text = str(branch_start)
-        ET.SubElement(transition, "read").text = ""
-
-        current_state = branch_start
-
-        # Procesar cada carácter de la alternativa
         for i, char in enumerate(alt):
             next_state = state_id
             state = ET.SubElement(automaton, "state", id=str(next_state))
-            ET.SubElement(state, "x").text = str(100 * (i + 2))
-            ET.SubElement(state, "y").text = str(idx * 100)
-            state_id += 1
-
-            # Transición del carácter actual
+            ET.SubElement(state, "x").text = str((i + 1) * 100)
+            ET.SubElement(state, "y").text = "0"
+            
+            # Transición con el carácter actual
             transition = ET.SubElement(automaton, "transition")
             ET.SubElement(transition, "from").text = str(current_state)
             ET.SubElement(transition, "to").text = str(next_state)
             ET.SubElement(transition, "read").text = char
 
             current_state = next_state
+            state_id += 1
 
-        last_states.append(current_state)
+        # Marcar último estado como final
+        ET.SubElement(automaton.find(f".//state[@id='{current_state}']"), "final")
 
-    # Crear estado final
-    final_state_id = state_id
-    final_state = ET.SubElement(automaton, "state", id=str(final_state_id))
-    final_state_x = 100 * (max_length + 2) if max_length > 0 else 200
-    ET.SubElement(final_state, "x").text = str(final_state_x)
-    ET.SubElement(final_state, "y").text = "0"
-    ET.SubElement(final_state, "final")
-    state_id += 1
+    else:
+        # Procesar múltiples alternativas con épsilon
+        max_length = max(len(alt) for alt in alternatives)
+        last_states = []
 
-    # Cadenas vacías por cada alternativa
-    for last_state in last_states:
-        transition = ET.SubElement(automaton, "transition")
-        ET.SubElement(transition, "from").text = str(last_state)
-        ET.SubElement(transition, "to").text = str(final_state_id)
-        ET.SubElement(transition, "read").text = ""
+        for idx, alt in enumerate(alternatives):
+            # Estado inicial de la alternativa (épsilon desde el estado 0)
+            branch_start = state_id
+            state = ET.SubElement(automaton, "state", id=str(branch_start))
+            ET.SubElement(state, "x").text = "100"
+            ET.SubElement(state, "y").text = str(idx * 100)
+            state_id += 1
+
+            # Transición épsilon desde el estado inicial
+            transition = ET.SubElement(automaton, "transition")
+            ET.SubElement(transition, "from").text = "0"
+            ET.SubElement(transition, "to").text = str(branch_start)
+            ET.SubElement(transition, "read").text = ""
+
+            current_state = branch_start
+
+            # Procesar cada carácter de la alternativa
+            for i, char in enumerate(alt):
+                next_state = state_id
+                state = ET.SubElement(automaton, "state", id=str(next_state))
+                ET.SubElement(state, "x").text = str(100 * (i + 2))
+                ET.SubElement(state, "y").text = str(idx * 100)
+                state_id += 1
+
+                # Transición con el carácter
+                transition = ET.SubElement(automaton, "transition")
+                ET.SubElement(transition, "from").text = str(current_state)
+                ET.SubElement(transition, "to").text = str(next_state)
+                ET.SubElement(transition, "read").text = char
+
+                current_state = next_state
+
+            last_states.append(current_state)
+
+        # Crear estado final común
+        final_state_id = state_id
+        final_state = ET.SubElement(automaton, "state", id=str(final_state_id))
+        final_state_x = 100 * (max_length + 2) if max_length > 0 else 200
+        ET.SubElement(final_state, "x").text = str(final_state_x)
+        ET.SubElement(final_state, "y").text = "0"
+        ET.SubElement(final_state, "final")
+        state_id += 1
+
+        # Conectar últimos estados al final con épsilon
+        for last_state in last_states:
+            transition = ET.SubElement(automaton, "transition")
+            ET.SubElement(transition, "from").text = str(last_state)
+            ET.SubElement(transition, "to").text = str(final_state_id)
+            ET.SubElement(transition, "read").text = ""
 
     # Guardar el archivo
     tree = ET.ElementTree(root)
     tree.write(f"{token}.jff", pretty_print=True, encoding="utf-8", xml_declaration=True)
 
-# Lectura y generación de autómatas
+# Leer Excel y generar autómatas
 df = pd.read_excel("automata.xlsx", sheet_name="oficial", header=1)
 for _, row in df.iterrows():
     create_jff_automaton(row["Token"], row["ER"])

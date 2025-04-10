@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<structure>
+  <type>fa</type>
+  <automaton>
+    <state id="0">
+      <x>0</x>
+      <y>0</y>
+      <initial/>
+    </state>
+    <state id="1">
+      <x>100</x>
+      <y>0</y>
+    </state>
+    <transition>
+      <from>0</from>
+      <to>1</to>
+      <read></read>
+    </transition>
+    <state id="2">
+      <x>200</x>
+      <y>0</y>
+    </state>
+    <transition>
+      <from>1</from>
+      <to>2</to>
+      <read>S</read>
+    </transition>
+    <state id="3">
+      <x>300</x>
+      <y>0</y>
+    </state>
+    <transition>
+      <from>2</from>
+      <to>3</to>
+      <read>p</read>
+    </transition>
+    <state id="4">
+      <x>400</x>
+      <y>0</y>
+    </state>
+    <transition>
+      <from>3</from>
+      <to>4</to>
+      <read>a</read>
+    </transition>
+    <state id="5">
+      <x>500</x>
+      <y>0</y>
+    </state>
+    <transition>
+      <from>4</from>
+      <to>5</to>
+      <read>n</read>
+    </transition>
+    <state id="6">
+      <x>100</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>0</from>
+      <to>6</to>
+      <read></read>
+    </transition>
+    <state id="7">
+      <x>200</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>6</from>
+      <to>7</to>
+      <read>M</read>
+    </transition>
+    <state id="8">
+      <x>300</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>7</from>
+      <to>8</to>
+      <read>e</read>
+    </transition>
+    <state id="9">
+      <x>400</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>8</from>
+      <to>9</to>
+      <read>m</read>
+    </transition>
+    <state id="10">
+      <x>500</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>9</from>
+      <to>10</to>
+      <read>o</read>
+    </transition>
+    <state id="11">
+      <x>600</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>10</from>
+      <to>11</to>
+      <read>r</read>
+    </transition>
+    <state id="12">
+      <x>700</x>
+      <y>100</y>
+    </state>
+    <transition>
+      <from>11</from>
+      <to>12</to>
+      <read>y</read>
+    </transition>
+    <state id="13">
+      <x>100</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>0</from>
+      <to>13</to>
+      <read></read>
+    </transition>
+    <state id="14">
+      <x>200</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>13</from>
+      <to>14</to>
+      <read>d</read>
+    </transition>
+    <state id="15">
+      <x>300</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>14</from>
+      <to>15</to>
+      <read>e</read>
+    </transition>
+    <state id="16">
+      <x>400</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>15</from>
+      <to>16</to>
+      <read>l</read>
+    </transition>
+    <state id="17">
+      <x>500</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>16</from>
+      <to>17</to>
+      <read>e</read>
+    </transition>
+    <state id="18">
+      <x>600</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>17</from>
+      <to>18</to>
+      <read>g</read>
+    </transition>
+    <state id="19">
+      <x>700</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>18</from>
+      <to>19</to>
+      <read>a</read>
+    </transition>
+    <state id="20">
+      <x>800</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>19</from>
+      <to>20</to>
+      <read>t</read>
+    </transition>
+    <state id="21">
+      <x>900</x>
+      <y>200</y>
+    </state>
+    <transition>
+      <from>20</from>
+      <to>21</to>
+      <read>e</read>
+    </transition>
+    <state id="22">
+      <x>100</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>0</from>
+      <to>22</to>
+      <read></read>
+    </transition>
+    <state id="23">
+      <x>200</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>22</from>
+      <to>23</to>
+      <read>i</read>
+    </transition>
+    <state id="24">
+      <x>300</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>23</from>
+      <to>24</to>
+      <read>n</read>
+    </transition>
+    <state id="25">
+      <x>400</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>24</from>
+      <to>25</to>
+      <read>t</read>
+    </transition>
+    <state id="26">
+      <x>500</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>25</from>
+      <to>26</to>
+      <read>e</read>
+    </transition>
+    <state id="27">
+      <x>600</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>26</from>
+      <to>27</to>
+      <read>r</read>
+    </transition>
+    <state id="28">
+      <x>700</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>27</from>
+      <to>28</to>
+      <read>f</read>
+    </transition>
+    <state id="29">
+      <x>800</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>28</from>
+      <to>29</to>
+      <read>a</read>
+    </transition>
+    <state id="30">
+      <x>900</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>29</from>
+      <to>30</to>
+      <read>c</read>
+    </transition>
+    <state id="31">
+      <x>1000</x>
+      <y>300</y>
+    </state>
+    <transition>
+      <from>30</from>
+      <to>31</to>
+      <read>e</read>
+    </transition>
+    <state id="32">
+      <x>1100</x>
+      <y>0</y>
+      <final/>
+    </state>
+    <transition>
+      <from>5</from>
+      <to>32</to>
+      <read></read>
+    </transition>
+    <transition>
+      <from>12</from>
+      <to>32</to>
+      <read></read>
+    </transition>
+    <transition>
+      <from>21</from>
+      <to>32</to>
+      <read></read>
+    </transition>
+    <transition>
+      <from>31</from>
+      <to>32</to>
+      <read></read>
+    </transition>
+  </automaton>
+</structure>

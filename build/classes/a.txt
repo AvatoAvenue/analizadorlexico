@@ -1,0 +1,31 @@
+package com.codigo;
+
+import java.io.FileReader;
+import java.io.IOException;
+
+public class App {
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Uso: java -cp [ruta-del-jar] com.codigo.Main [archivo]");
+            return;
+        }
+
+        String filePath = args[0];
+        
+        try (FileReader reader = new FileReader(filePath)) {
+            Lexer lexer = new Lexer(reader);
+            lexer.yylex();
+
+            // Imprime los tokens recolectados
+            for (Lexer.Token token : lexer.getTokens()) {
+                if (token.valor != null) {
+                    System.out.println("Token: " + token.token + " | Valor: " + token.valor);
+                } else {
+                    System.out.println("Token: " + token.token);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+}
