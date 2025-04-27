@@ -42,8 +42,7 @@ Modificador_Referencia = "ref" | "ref mut"
 Operador_Modulo = "mod"
 Modificador_Constante = "const"
 Modificador_Alcance = "static" | "file"
-Operador_Aritmetico = "+" | "-" | "/" | "=" | "?"
-Palabra_Clave = "*" | "**" | "class"
+Operador_Aritmetico = "+" | "-" | "*" | "/" | "**" | "=" | "?"
 Operador_Comparacion = ">" | "<" | ">=" | "<=" | "*>"
 Operador = "=="
 Operador_Diferencia = "<>"
@@ -55,6 +54,7 @@ Miembro_Clase = "property" | "indexer" | "event" | "field"
 Manejo_Excepciones = "catch" | "finally" | "try" | "except"
 Alto = "break" | "ESCAPE"
 Contexto_Verificacion = "checked"
+Clase = "class"
 Salto = "continue" | "goto"
 Valor_Predeterminado = "default"
 Unidad_Compilacion = "assembly" | "module"
@@ -203,7 +203,7 @@ Recursion = "rec"
 Agrupacion_Tipos = "type family"
 Instancia_Tipo = "type instance"
 Depuracion = "debugger"
-Palabra_Clave_Especial = "ACCESS"
+Acceso = "ACCESS"
 Avanzar = "ADVANCING"
 Temporizacion = "AFTER"
 Cuantificador = "ALL"
@@ -221,8 +221,12 @@ Generacion_Codigo = "GENERATE"
 Valor_Vacio = "BLANK"
 Tipo_Binario = "BIT" | "BINARY-SHORT" | "BINARY-CHAR"
 
+Literal = \"([^\"\\]|\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})*\"
 Identificador = [a-zA-Z_][a-zA-Z0-9_]*
+Numerico = [0-9]+
 Punto = \.
+puntocoma = \;
+puntodoble = \:
 LlaveAbierta = \{
 LlaveCerrada = \}
 ParentesisAbierto = \(
@@ -318,11 +322,6 @@ CorcheteCerrado = \]
     listaDeTokens.add(t);
     return t; 
 }
-{Palabra_Clave} { 
-    Token t = new Token("palabra_clave", yytext()); 
-    listaDeTokens.add(t);
-    return t; 
-}
 {Operador_Comparacion} { 
     Token t = new Token("operador_comparacion", yytext()); 
     listaDeTokens.add(t);
@@ -375,6 +374,11 @@ CorcheteCerrado = \]
 }
 {Contexto_Verificacion} { 
     Token t = new Token("contexto_verificacion", yytext()); 
+    listaDeTokens.add(t);
+    return t; 
+}
+{Clase} { 
+    Token t = new Token("clase", yytext()); 
     listaDeTokens.add(t);
     return t; 
 }
@@ -1118,8 +1122,8 @@ CorcheteCerrado = \]
     listaDeTokens.add(t);
     return t; 
 }
-{Palabra_Clave_Especial} { 
-    Token t = new Token("palabra_clave_especial", yytext()); 
+{Acceso} { 
+    Token t = new Token("acceso", yytext()); 
     listaDeTokens.add(t);
     return t; 
 }
@@ -1207,12 +1211,12 @@ CorcheteCerrado = \]
 {Punto} {
     Token t = new Token("Punto", yytext());
     listaDeTokens.add(t);
-    return t;
+   return t;
 }
 {LlaveAbierta} { 
     Token t = new Token("LlaveAbierta", yytext());
     listaDeTokens.add(t);
-    return t;
+   return t;
 }
 {LlaveCerrada} { 
     Token t = new Token("LlaveCerrada", yytext());
@@ -1239,11 +1243,33 @@ CorcheteCerrado = \]
     listaDeTokens.add(t);
     return t;
 }
+
+{Numerico} { 
+    Token t = new Token("Numerico", yytext());
+    listaDeTokens.add(t);
+    return t;
+}
+{puntocoma} { 
+    Token t = new Token("puntocoma", yytext());
+    listaDeTokens.add(t);
+    return t;
+}
+{puntodoble} { 
+    Token t = new Token("puntodoble", yytext());
+    listaDeTokens.add(t);
+    return t;
+}
+{Literal} { 
+    Token t = new Token("Literal", yytext());
+    listaDeTokens.add(t);
+    return t;
+}
 {Identificador} { 
     Token t = new Token("Identificador", yytext());
     listaDeTokens.add(t);
     return t;
 }
+
 
 {Whitespace} { /* ignorar */ }
 
