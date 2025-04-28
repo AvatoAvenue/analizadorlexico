@@ -1,3 +1,4 @@
+package com.codigo;
 %%
 %public
 %class Lexer
