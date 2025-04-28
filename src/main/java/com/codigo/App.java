@@ -20,10 +20,14 @@ public class App {
 
             // Imprimir resultados
             for (Lexer.Token token : lexer.getTokens()) {
+                if (token.MultiLex) {
                 System.out.println("Token: " + token.token + " | Valor: " + token.valor);
+                } else {
+                    System.out.println("Token: " + token.token);
+                }
             }
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
     }
-}
+} 
