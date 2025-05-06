@@ -1,5 +1,6 @@
 package com.codigo;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -11,23 +12,26 @@ public class App {
         }
 
         String filePath = args[0];
-        
-        try (FileReader reader = new FileReader(filePath)) {
-            Lexer lexer = new Lexer(reader);
-            
-            // Procesar todos los tokens
-            while (lexer.yylex() != null) {}
+        File file = new File(filePath);
 
-            // Imprimir resultados
-            for (Lexer.Token token : lexer.getTokens()) {
-                if (token.MultiLex) {
-                System.out.println("Token: " + token.token + " | Valor: " + token.valor);
-                } else {
-                    System.out.println("Token: " + token.token);
-                }
+        // Validar existencia y acceso al archivo
+        if (!file.exists() || !file.canRead()) {
+            System.err.println("Error: El archivo '" + filePath + "' no existe o no se puede leer.");
+            System.exit(1);
+        }
+
+        try (FileReader reader = new FileReader(file)) {
+            Lexer lexer = new Lexer(reader);
+            Parser parser = new Parser(lexer);
+            boolean exito = parser.parseCode();
+
+            if (!exito) {
+                System.exit(1);
             }
-        } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+
+        } catch (Exception e) { // Captura todas las excepciones
+            System.err.println("Error procesando '" + filePath + "': " + e.getMessage());
+            System.exit(1);
         }
     }
 } 

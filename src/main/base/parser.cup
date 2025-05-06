@@ -1,0 +1,99 @@
+package com.codigo;
+
+import java_cup.runtime.*;
+import java.util.List;
+import java.util.ArrayList;
+
+parser code {:
+    public Lexer lexer;
+    private boolean sintaxiscorrecta = true;
+    private List<String> errores = new ArrayList<>();
+
+    public Parser(Lexer lexer) {
+        super(lexer);
+        this.lexer = lexer;
+    }
+
+    public void syntax_error(Symbol s) {
+        sintaxiscorrecta = false;
+        String errorMsg = "Error de sintaxis en línea " + (s.left + 1) +
+                        ", columna " + (s.right + 1) +
+                        ". Token inesperado: '" + s.value + "'";
+        System.err.println(errorMsg);
+        errores.add(errorMsg);
+        }
+
+    public void report_error(String message, Object info) {
+        if (info instanceof Symbol) {
+            Symbol s = (Symbol) info;
+            if (s.sym == sym.EOF) {
+                errores.add("Error inesperado al final del archivo");
+                } else {
+                    errores.add(message);
+                }
+        }
+    }
+
+    public boolean parseCode() {
+        try {
+            super.parse();
+            if (sintaxiscorrecta) {
+                System.out.println("compilación exitosa");
+                return true;
+                } else {
+                    System.out.println(errores.size() + " errores encontrados:");
+                    errores.forEach(System.out::println);
+                    return false;
+                }
+            } catch (Exception e) {
+                System.out.println("Error fatal " + e.getMessage());
+                return false;
+            }
+    }
+:};
+
+action code {:
+:}
+
+/* Terminales */
+terminal POR, HACER, MIENTRAS, PORCADA;
+terminal OPERADORARITMETICO, OPERADORRELACIONAL, OPERADORDESPLAZAMIENTO, OPERADORASIGNAMIENTO;
+terminal PARAMETROENTRADA;
+terminal TIPONUMERICO, ID, NUMERICO, LITERAL;
+terminal PUNTO, PUNTOCOMA, PUNTODOBLE;
+terminal LLAVEABIERTA, LLAVECERRADA, PARENTESISABIERTO, PARENTESISCERRADO, CORCHETEABIERTO, CORCHETECERRADO;
+terminal ERROR;
+
+/* No terminales */
+non terminal INICIO;
+non terminal INSTRUCCIONES, INSTRUCCION;
+non terminal CONDICIONALAB;
+non terminal pors, porcadas, hacermientras;
+non terminal asignacion;
+
+/* Reglas sintácticas */
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES;
+
+INSTRUCCION ::= pors | hacermientras | porcadas | asignacion;
+
+INSTRUCCIONES ::= INSTRUCCION INSTRUCCIONES | /* vacío */;
+
+CONDICIONALAB ::= ID OPERADORRELACIONAL ID;
+asignacion ::= ID OPERADORASIGNAMIENTO ID PUNTOCOMA | ID OPERADORASIGNAMIENTO NUMERICO PUNTOCOMA | ID OPERADORASIGNAMIENTO LITERAL PUNTOCOMA;
+
+/* For */
+pors ::= POR PARENTESISABIERTO TIPONUMERICO asignacion
+         CONDICIONALAB PUNTOCOMA
+         ID OPERADORDESPLAZAMIENTO PARENTESISCERRADO
+         LLAVEABIERTA INSTRUCCIONES LLAVECERRADA;
+
+/* Do-While */
+hacermientras ::= HACER LLAVEABIERTA INSTRUCCIONES LLAVECERRADA MIENTRAS
+                  PARENTESISABIERTO CONDICIONALAB PARENTESISCERRADO;
+
+/* Foreach */
+porcadas ::= PORCADA PARENTESISABIERTO TIPONUMERICO ID PARAMETROENTRADA ID PARENTESISCERRADO
+             LLAVEABIERTA INSTRUCCIONES LLAVECERRADA;
+

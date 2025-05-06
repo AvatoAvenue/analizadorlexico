@@ -1,0 +1,9 @@
+For (int a = 0; a == b; a>>)
+{
+    b = a;
+}
+
+Do  {
+    a = a;
+}
+While (a < b)
