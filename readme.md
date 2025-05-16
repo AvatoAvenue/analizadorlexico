@@ -7,7 +7,7 @@ java -jar lib\jflex-1.9.1.jar --nobak -d src\main\java\com\codigo src\main\base\
 java -jar lib\cup-11b.jar -destdir src\main\java\com\codigo -parser Parser src\main\base\parser.cup
 
 ## Compiling the app
-javac -cp "lib\cup-11b-runtime.jar" -d build\classes src\main\java\com\codigo\*.java
+javac -cp "lib\cup-11b-runtime.jar" -d build\classes src\main\java\com\codigo\\*.java
 
 ## Executing the app (test)
 java -cp "build\classes;lib\cup-11b-runtime.jar" com.codigo.App ".\build\classes\sintacticocorrecto.txt"

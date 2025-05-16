@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 parser code {:
+// Agrega esta línea al inicio del archivo .cup
     public Lexer lexer;
     private boolean sintaxiscorrecta = true;
     private List<String> errores = new ArrayList<>();
@@ -56,44 +57,275 @@ action code {:
 :}
 
 /* Terminales */
-terminal POR, HACER, MIENTRAS, PORCADA;
-terminal OPERADORARITMETICO, OPERADORRELACIONAL, OPERADORDESPLAZAMIENTO, OPERADORASIGNAMIENTO;
-terminal PARAMETROENTRADA;
-terminal TIPONUMERICO, ID, NUMERICO, LITERAL;
-terminal PUNTO, PUNTOCOMA, PUNTODOBLE;
-terminal LLAVEABIERTA, LLAVECERRADA, PARENTESISABIERTO, PARENTESISCERRADO, CORCHETEABIERTO, CORCHETECERRADO;
-terminal ERROR;
+terminal AGRUPACIONPRINCIPAL, DECLARACIONFUNCION
+        , AGRUPACIONESTRUCTURA, AGRUPACIONENUMERATOR
+        , AGRUPACIONINTERFAZ, AGRUPACIONSECUNDARIA;
+terminal LISTA;
+terminal POR, HACER, MIENTRAS, SELECTOR, CASO, DEFECTO, PORCADA, INTENTAR
+        , ATRAPAR, TERMINAR, IMPRIMIR, ESCANEAR, SI, SINO, SINOHACER;
+terminal RETORNAR, PARAR;
+terminal TIPONUMERICO, TIPOLOGICO, TIPOCADENA, TIPOINFERIDO, TIPOCARACTER;
+terminal OPERADORRELACIONAL, OPERADORASIGNAMIENTO
+        , OPERADORRESULTADO, OPERADORDESPLAZAMIENTO, OPERADORTERNARIO
+        , OPERADORCONLOGICO;
+terminal PARAMETROENTRADA, GESTIONRECURSOS, MODIFICADORACCESO, DEC;
+terminal CORCHETEABIERTO, CORCHETECERRADO, LLAVEABIERTA, LLAVECERRADA
+        , PARENTESISABIERTO, PARENTESISCERRADO, NUMERICO, COMA, PUNTOCOMA
+        , PUNTODOBLE, PUNTO, LITERAL, ID;
+terminal MENOS, MAS, MULTI, DIV;
 
-/* No terminales */
-non terminal INICIO;
-non terminal INSTRUCCIONES, INSTRUCCION;
-non terminal CONDICIONALAB;
-non terminal pors, porcadas, hacermientras;
-non terminal asignacion;
+terminal ERRORL;
 
-/* Reglas sintácticas */
-start with INICIO;
+/* Inicio */
+non terminal inicio, inicios;
 
-INICIO ::= INSTRUCCIONES;
+/* instrucciones */
 
-INSTRUCCION ::= pors | hacermientras | porcadas | asignacion;
+non terminal espacios, //funciona
+            librerias, //funciona
+            clases, //funciona
+            funciones, //funcionamitad
+            estructuras,
+            enums,
+            interfaces,
+            declaraciones, //funcionamitad
+            sis, //funciona
+            mientras, //funciona
+            mientrashacer, //funciona
+            porpuro, //funciona
+            porcadas, //funciona
+            intentos, //funciona
+            impresiones, //funciona
+            escaneos, //funciona
+            declaracionarreglos,
+            declaracionlistas,
+            lambdas,
+            ternarios,
+            selectors;
 
-INSTRUCCIONES ::= INSTRUCCION INSTRUCCIONES | /* vacío */;
+/* reglas */
+non terminal casos, defectos, atrapars, terminars, retornos, asignars
+            , rompers, oraciones, asignamientovariables, valores
+            , tipos, listabloques, dimensiones, modificadoresacceso
+            , miembrosclase, bloquevalores, libreriasopcional
+            , declaracionesopcional, clasesopcional, dimensionesopcional
+            , funcionesnormales, funcionessinretorno, sinoshacer;
 
-CONDICIONALAB ::= ID OPERADORRELACIONAL ID;
-asignacion ::= ID OPERADORASIGNAMIENTO ID PUNTOCOMA | ID OPERADORASIGNAMIENTO NUMERICO PUNTOCOMA | ID OPERADORASIGNAMIENTO LITERAL PUNTOCOMA;
+non terminal instrucciones, condiciones
+            , parametros, operaritmetics, expresiones;
 
-/* For */
-pors ::= POR PARENTESISABIERTO TIPONUMERICO asignacion
-         CONDICIONALAB PUNTOCOMA
-         ID OPERADORDESPLAZAMIENTO PARENTESISCERRADO
-         LLAVEABIERTA INSTRUCCIONES LLAVECERRADA;
+non terminal caso, instruccion, espacio, declaracion
+            , parametro, expresion, operaritmetic, atraparterminar, atrapar
+            , condicion, sinohacer, sinos, selector
+            , alto, retornoalto, cuerpolambda, parametrolista
+            , tipofuncion, valor, si, aumentodecremento, bloquesi, sino
+            , dimension, lambda, idnum, libreria, clase, idop, funcion, id_continuacion;
 
-/* Do-While */
-hacermientras ::= HACER LLAVEABIERTA INSTRUCCIONES LLAVECERRADA MIENTRAS
-                  PARENTESISABIERTO CONDICIONALAB PARENTESISCERRADO;
+//non terminal funcionlocales, constructores;
+/* Precedencias*/
+precedence right OPERADORTERNARIO, PUNTODOBLE;
+precedence left MAS, MENOS;
+precedence left MULTI, DIV;
+precedence left LLAVEABIERTA;
+precedence left PARENTESISCERRADO;
+precedence left SINO, SINOHACER;
+precedence left MODIFICADORACCESO, DECLARACIONFUNCION;
+precedence left RETORNAR;
+precedence left NUMERICO, COMA;
 
-/* Foreach */
-porcadas ::= PORCADA PARENTESISABIERTO TIPONUMERICO ID PARAMETROENTRADA ID PARENTESISCERRADO
-             LLAVEABIERTA INSTRUCCIONES LLAVECERRADA;
+/* gramatica */
+start with inicios;
 
+inicios ::= inicio inicios | inicio;
+inicio ::= espacios | instrucciones;
+
+instrucciones ::= instruccion instrucciones | instruccion;
+instruccion ::= sis | mientras | mientrashacer | porpuro | porcadas
+                | intentos | impresiones | escaneos | declaraciones
+                | declaracionarreglos | declaracionlistas | lambdas
+                | ternarios | retornos | rompers | asignars | funciones
+                | LLAVEABIERTA instrucciones LLAVECERRADA | selectors | id_continuacion
+                | enums | estructuras | interfaces
+                | ERRORL PUNTOCOMA;
+expresiones ::= expresion expresiones | expresion;
+expresion ::= sis | mientras | mientrashacer | porpuro | porcadas | intentos
+                | impresiones | escaneos | declaraciones | declaracionarreglos
+                | declaracionlistas | lambdas | ternarios | retornos
+                | rompers | asignars | selectors | declaracionlistas | declaracionarreglos;
+condiciones ::= condicion OPERADORCONLOGICO condiciones | condicion;
+condicion ::= valor OPERADORRELACIONAL valor;
+parametros ::= parametrolista | /* empty */;
+parametrolista ::= parametro | parametrolista COMA parametro;
+parametro ::= tipos ID;
+
+id_continuacion ::= OPERADORASIGNAMIENTO lambda PUNTOCOMA
+                | OPERADORASIGNAMIENTO condiciones OPERADORTERNARIO expresiones PUNTODOBLE expresiones PUNTOCOMA
+                | OPERADORASIGNAMIENTO valor PUNTOCOMA
+                | PUNTOCOMA
+                | operaritmetics;
+
+/* namespace */ //pendienteprobar
+
+espacios ::= espacio espacio | espacio;
+espacio ::= AGRUPACIONPRINCIPAL ID 
+            LLAVEABIERTA libreriasopcional declaracionesopcional 
+            clasesopcional LLAVECERRADA;
+clasesopcional ::= clases | /* empty */;
+libreriasopcional ::= librerias | /* empty */;
+declaracionesopcional ::= declaraciones | /* empty */;
+
+/* librerias */
+
+librerias ::= libreria librerias | libreria;
+libreria ::= GESTIONRECURSOS ID PUNTOCOMA;
+
+/* clase */ //pendienteprobar
+
+clases ::= clase clases | clase;
+clase ::= modificadoresacceso AGRUPACIONSECUNDARIA ID
+        LLAVEABIERTA miembrosclase LLAVECERRADA;
+modificadoresacceso ::= MODIFICADORACCESO | /* empty */;
+miembrosclase ::= declaraciones | enums | funciones | estructuras
+            | interfaces | /* empty */;
+
+/* funcion */ //pendienteprobar
+
+funciones ::= funciones funciones | funcion;
+funcion ::= funcionesnormales | funcionessinretorno;
+funcionessinretorno ::= modificadoresacceso DECLARACIONFUNCION ID 
+            PARENTESISABIERTO parametros PARENTESISCERRADO 
+            LLAVEABIERTA expresiones LLAVECERRADA;
+funcionesnormales ::= modificadoresacceso tipofuncion DECLARACIONFUNCION  ID 
+            PARENTESISABIERTO parametros PARENTESISCERRADO 
+            LLAVEABIERTA expresiones retornos LLAVECERRADA;
+tipofuncion ::= TIPONUMERICO | TIPOLOGICO | TIPOCADENA;
+retornos ::= RETORNAR valor PUNTOCOMA;
+valor ::= LITERAL | NUMERICO | ID | PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
+
+/* estructura */ //pendienteprobar
+
+estructuras ::= AGRUPACIONESTRUCTURA ID LLAVEABIERTA declaraciones LLAVECERRADA;
+
+/* enum */ //pendienteprobar
+
+enums ::= AGRUPACIONENUMERATOR ID LLAVEABIERTA valores LLAVECERRADA PUNTOCOMA;
+
+/* interfaz */ //pendienteprobar
+
+interfaces ::= AGRUPACIONINTERFAZ ID LLAVEABIERTA declaraciones LLAVECERRADA;
+
+/* declaracion */ //pendienteprobar
+
+declaraciones ::= declaracion declaraciones | declaracion;
+declaracion ::= DEC tipos ID PUNTOCOMA
+            | DEC tipos ID OPERADORASIGNAMIENTO valor PUNTOCOMA;
+asignars ::= ID OPERADORASIGNAMIENTO valor PUNTOCOMA;
+
+/* Selector */ //pendienteprobar
+selectors ::= selector casos defectos | selector defectos | selector casos;
+selector::= SELECTOR PARENTESISABIERTO valor PARENTESISCERRADO;
+casos ::= caso casos | caso ;
+caso ::= CASO valor PUNTODOBLE LLAVEABIERTA expresiones retornoalto LLAVECERRADA;
+retornoalto ::= retornos | alto;
+defectos ::= DEFECTO PUNTODOBLE LLAVEABIERTA expresiones retornoalto LLAVECERRADA;
+alto ::= PARAR PUNTOCOMA;
+
+/* if */ //pendienteprobar
+
+sis ::= si sinoshacer sinos;
+
+sinos ::= /* empty */ | sino;
+sinoshacer ::= /* empty */ | sinohacer sinoshacer;
+
+
+si ::= SI PARENTESISABIERTO condiciones PARENTESISCERRADO
+        LLAVEABIERTA expresiones LLAVECERRADA;
+
+sinohacer::= SINOHACER PARENTESISABIERTO condiciones PARENTESISCERRADO
+        LLAVEABIERTA expresiones LLAVECERRADA;
+sino ::= SINO LLAVEABIERTA expresiones LLAVECERRADA;
+
+/* while */ //pendienteprobar
+
+mientras ::= MIENTRAS PARENTESISABIERTO condiciones PARENTESISCERRADO
+            PUNTODOBLE LLAVEABIERTA expresiones LLAVECERRADA;
+
+/* do while */ //pendienteprobar
+
+mientrashacer ::= HACER PARENTESISABIERTO condiciones PARENTESISCERRADO
+            PUNTODOBLE LLAVEABIERTA expresiones LLAVECERRADA;
+
+/* for */ //pendienteprobar
+
+porpuro ::= POR PARENTESISABIERTO declaracion PARENTESISCERRADO
+        PARENTESISABIERTO asignars PARENTESISCERRADO
+        PARENTESISABIERTO aumentodecremento PARENTESISCERRADO
+        CORCHETEABIERTO condiciones CORCHETECERRADO
+        LLAVEABIERTA expresiones LLAVECERRADA;
+aumentodecremento ::= ID OPERADORDESPLAZAMIENTO PUNTOCOMA;
+
+/* foreach */ //pendienteprobar
+
+porcadas ::= PORCADA 
+            PARENTESISABIERTO tipos ID PARAMETROENTRADA ID PARENTESISCERRADO
+            PUNTODOBLE LLAVEABIERTA expresiones LLAVECERRADA;
+tipos ::= TIPOCADENA | TIPOINFERIDO | TIPONUMERICO | TIPOCARACTER;
+
+/* try */ //pendienteprobar
+
+intentos ::= INTENTAR LLAVEABIERTA expresiones LLAVECERRADA atraparterminar;
+atraparterminar::= atrapars terminars | atrapars | terminars;
+atrapars ::= atrapar atrapars | atrapar;
+atrapar ::= ATRAPAR LLAVEABIERTA expresiones LLAVECERRADA;
+terminars ::= TERMINAR LLAVEABIERTA expresiones LLAVECERRADA;
+
+
+/* imprimir */ //pendienteprobar
+
+impresiones ::= IMPRIMIR PARENTESISABIERTO oraciones PARENTESISCERRADO PUNTOCOMA;
+oraciones ::= valor | oraciones MAS valor;
+
+/* escanear */ //pendienteprobar
+
+escaneos ::= ESCANEAR PARENTESISABIERTO PARENTESISCERRADO PUNTOCOMA;
+
+/* arreglo */ //pendienteprobar
+
+declaracionarreglos ::=tipos CORCHETEABIERTO dimensionesopcional CORCHETECERRADO 
+                    ID asignamientovariables PUNTOCOMA;
+asignamientovariables ::= OPERADORASIGNAMIENTO listabloques
+                    | /* empty */;
+listabloques ::= bloquevalores
+                | listabloques COMA bloquevalores;
+bloquevalores ::= CORCHETEABIERTO listabloques CORCHETECERRADO
+                | LLAVEABIERTA valores LLAVECERRADA;
+valores ::= valor | valores COMA valor;
+dimensionesopcional::= dimensiones | /* empty */;
+dimensiones ::= NUMERICO | dimensiones COMA NUMERICO;
+
+/* lista */ //pendienteprobar
+
+declaracionlistas ::= LISTA CORCHETEABIERTO tipos CORCHETECERRADO
+                    ID OPERADORASIGNAMIENTO ID OPERADORRESULTADO
+                    listabloques PUNTOCOMA;
+
+/* lambda */ //pendienteprobar
+
+lambdas ::= idop lambda PUNTOCOMA;
+lambda ::= PARENTESISABIERTO parametrolista PARENTESISCERRADO
+        OPERADORRESULTADO cuerpolambda
+        | PARENTESISABIERTO parametro PARENTESISCERRADO
+        OPERADORRESULTADO cuerpolambda;
+cuerpolambda ::= LLAVEABIERTA expresiones LLAVECERRADA | expresion;
+
+/* operacion terniaria */ //pendienteprobar
+
+ternarios ::= idop condiciones OPERADORTERNARIO
+                expresiones PUNTODOBLE expresiones PUNTOCOMA;
+
+/* operacion aritmetica*/ //pendienteprobar
+operaritmetics ::= operaritmetics MAS operaritmetic
+                | operaritmetics MENOS operaritmetic
+                | operaritmetic;
+operaritmetic ::= operaritmetic MULTI idnum | operaritmetic DIV idnum | idnum;
+idnum ::= ID | NUMERICO;

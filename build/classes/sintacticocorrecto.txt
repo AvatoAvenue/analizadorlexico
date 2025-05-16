@@ -1,9 +1,144 @@
-For (int a = 0; a == b; a>>)
+        List[int] compra = compras => [{frutas,manzanas,naranjas}];
+
+        cuadrado = (x) => (x * x);
+
+        x = y ? "cierto" : "falso";
+
+        enum dias
+        { lunes, miercoles, jueves };
+
+        struct cerveza
+        {
+            let int x;
+        }
+
+        interface personaje
+        {
+            let int a;
+        }
+
+        namespace espacio
 {
-    b = a;
+    using system;
+    let int x;
+
+    public class Principal
+    {
+        public function main(int y)
+        {
+            if (a>b)
+            {
+                printo("hola");
+            } elif (b==a)
+            {
+                x = (y - 2);
+            } else
+            {
+                x = a;
+            }
+        }
+    }
+
+    public class Second
+    {
+        public function ciclos(int a, int b)
+        {
+            while (a>b):
+            {
+                printo("while");
+            }
+
+            dow (b<c):
+            {
+                printo("do while");
+            }
+
+            foreach (int a in b):
+            {
+                printo(valor);
+            }
+            fur (let int i;)(i = 0;)(i>>;)[a>i]
+            {
+                printo("for");
+            }
+        }
+
+        public function intento(int x)
+        {
+            try { printo(saludo + "a"); }
+            catch { printo("error"); }
+            finally { scani(); }
+        }
+
+        public function declaraciones()
+        {
+            int[2,3,4] precio;
+
+            int[2,3,4] precio = [
+                [
+                    [
+                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}  
+                    ],
+                    [
+                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
+                    ],
+                    [
+                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
+                    ]
+                ],
+                [
+                    [
+                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
+                    ],
+                    [
+                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
+                    ],
+                    [
+                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
+                    ]
+                ]
+            ];
+            List[int] compra = compras => 
+            {frutas,manzanas,naranjas};
+
+            cuadrado = (x) => (x * x);
+            x = y ? "cierto" : "falso";
+
+            switch (cerveza)
+                case 1:
+                {
+                    printo("a");
+                    break;
+                }
+                case 2:
+                {
+                    printo("b");
+                    break;
+                }
+                default:
+                {
+                    printo("c");
+                    break;
+                }
+        }
+    }
+
+    public class Third
+    {
+        enum dias
+        { lunes, miercoles, jueves }
+
+        struct cerveza
+        {
+            let int x;
+            printo(x);
+        }
+
+        interface personaje
+        {
+            let int a;
+        }
+    }
 }
 
-Do  {
-    a = a;
-}
-While (a < b)
+
