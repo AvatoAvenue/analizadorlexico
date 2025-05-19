@@ -151,7 +151,7 @@ expresiones ::= expresion expresiones | expresion;
 expresion ::= sis | mientras | mientrashacer | porpuro | porcadas | intentos
                 | impresiones | escaneos | declaraciones | declaracionarreglos
                 | declaracionlistas | lambdas | ternarios | retornos
-                | rompers | asignars | selectors | declaracionlistas | declaracionarreglos;
+                | rompers | asignars | selectors;
 condiciones ::= condicion OPERADORCONLOGICO condiciones | condicion;
 condicion ::= valor OPERADORRELACIONAL valor;
 parametros ::= parametrolista | /* empty */;
