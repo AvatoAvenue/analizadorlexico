@@ -128,10 +128,9 @@
         enum dias
         { lunes, miercoles, jueves }
 
-        struct cerveza
+        struct cervezaccor
         {
             let int x;
-            printo(x);
         }
 
         interface personaje

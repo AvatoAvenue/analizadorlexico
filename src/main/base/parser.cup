@@ -318,7 +318,7 @@ lambda ::= PARENTESISABIERTO parametrolista PARENTESISCERRADO
         OPERADORRESULTADO cuerpolambda;
 cuerpolambda ::= LLAVEABIERTA expresiones LLAVECERRADA | expresion;
 
-/* operacion terniaria */ //pendienteprobar
+/* operacion ternaria */ //pendienteprobar
 
 ternarios ::= idop condiciones OPERADORTERNARIO
                 expresiones PUNTODOBLE expresiones PUNTOCOMA;
