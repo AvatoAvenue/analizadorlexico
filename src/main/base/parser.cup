@@ -108,7 +108,7 @@ non terminal casos, defectos, atrapars, terminars, retornos, asignars
             , rompers, oraciones, asignamientovariables, valores
             , tipos, listabloques, dimensiones, modificadoresacceso
             , miembrosclase, bloquevalores, libreriasopcional
-            , declaracionesopcional, clasesopcional, dimensionesopcional
+            , declaracionesopcional, clasesopcional, dimensionesopcional, bloquedeclaraciones
             , funcionesnormales, funcionessinretorno, sinoshacer, bloqueexpresiones, bloqueparametros, bloquecondiciones;
 
 non terminal condiciones
@@ -145,7 +145,7 @@ expresiones ::= expresion expresiones | expresion;
 expresion ::= sis | mientras | mientrashacer | porpuro | porcadas | intentos
                 | impresiones | escaneos | declaraciones | declaracionarreglos
                 | declaracionlistas | lambdas | ternarios | retornos
-                | rompers | asignars | selectors;
+                | rompers | asignars | selectors | enums;
 
 bloquecondiciones ::= PARENTESISABIERTO condiciones PARENTESISCERRADO;
 condiciones ::= condicion OPERADORCONLOGICO condiciones | condicion;
@@ -155,6 +155,8 @@ bloqueparametros ::= PARENTESISABIERTO parametrolista PARENTESISCERRADO;
 parametros ::= parametrolista | /* empty */;
 parametrolista ::= parametro | parametrolista COMA parametro;
 parametro ::= tipos ID;
+
+bloquedeclaraciones ::= LLAVEABIERTA declaraciones LLAVECERRADA;
 
 /* namespace */
 
@@ -177,8 +179,8 @@ clases ::= clases clase | clase;
 clase ::= modificadoresacceso AGRUPACIONSECUNDARIA ID
         LLAVEABIERTA miembrosclase LLAVECERRADA;
 modificadoresacceso ::= MODIFICADORACCESO | /* empty */;
-miembrosclase ::= declaraciones | enums | funciones | estructuras
-            | interfaces | /* empty */;
+miembrosclase ::= declaraciones miembrosclase| enums miembrosclase| funciones miembrosclase 
+| estructuras miembrosclase | interfaces miembrosclase| /* empty */;
 
 /* funcion */
 
@@ -192,19 +194,20 @@ funcionesnormales ::= modificadoresacceso tipofuncion DECLARACIONFUNCION  ID
             LLAVEABIERTA expresiones retornos LLAVECERRADA;
 tipofuncion ::= TIPONUMERICO | TIPOLOGICO | TIPOCADENA;
 retornos ::= RETORNAR valor PUNTOCOMA;
-valor ::= LITERAL | NUMERICO | ID | PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
+valor ::= LITERAL | NUMERICO | ID 
+                | PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
 
 /* estructura */
 
-estructuras ::= AGRUPACIONESTRUCTURA ID LLAVEABIERTA declaraciones LLAVECERRADA;
+estructuras ::= AGRUPACIONESTRUCTURA ID bloquedeclaraciones;
 
 /* enum */ 
 
-enums ::= AGRUPACIONENUMERATOR ID LLAVEABIERTA valores LLAVECERRADA PUNTOCOMA;
+enums ::= AGRUPACIONENUMERATOR ID OPERADORASIGNAMIENTO bloquevalores PUNTOCOMA;
 
 /* interfaz */
 
-interfaces ::= AGRUPACIONINTERFAZ ID LLAVEABIERTA declaraciones LLAVECERRADA;
+interfaces ::= AGRUPACIONINTERFAZ ID bloquedeclaraciones;
 
 /* declaracion */ 
 
@@ -298,15 +301,15 @@ declaracionlistas ::= LISTA CORCHETEABIERTO tipos CORCHETECERRADO
 
 /* lambda */
 
-lambdas ::= lambdaasignar PUNTOCOMA | lambdaexpr PUNTOCOMA;
-lambdaasignar ::= ID OPERADORASIGNAMIENTO lambdaexpr;
+lambdas ::= lambdaexpr;
 lambdaexpr ::= bloqueparametros OPERADORRESULTADO cuerpolambda;
-cuerpolambda ::= bloqueexpresiones | expresion;
-
+cuerpolambda ::= bloqueexpresiones 
+                | PARENTESISABIERTO expresion PARENTESISCERRADO 
+                | PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
 
 /* operacion ternaria */
 
-ternarios ::= ID condiciones OPERADORTERNARIO
+ternarios ::= ID OPERADORASIGNAMIENTO bloquecondiciones OPERADORTERNARIO
                 valor PUNTODOBLE valor PUNTOCOMA;
 
 /* operacion aritmetica*/

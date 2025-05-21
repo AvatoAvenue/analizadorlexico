@@ -102,6 +102,27 @@
                 }
         }
     }
+
+    public class Third
+    {
+       enum dias = { lunes, miercoles, jueves };
+       struct cerveza
+       {
+           let int y;
+       }
+
+       interface personaje
+       {
+           let int a;
+       }
+
+       public function fn()
+       {
+          x = (x==y) ? "cierto" : "falso";
+
+          cuadrado = (x) => (x * x);
+       }
+    }
 }
 
 
