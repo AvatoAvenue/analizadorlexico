@@ -8,65 +8,65 @@ package com.codigo;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int GESTIONRECURSOS = 38;
-  public static final int OPERADORDESPLAZAMIENTO = 34;
-  public static final int CASO = 13;
-  public static final int TIPONUMERICO = 26;
+  public static final int GESTIONRECURSOS = 37;
+  public static final int OPERADORDESPLAZAMIENTO = 33;
+  public static final int CASO = 12;
+  public static final int TIPONUMERICO = 25;
   public static final int POR = 9;
-  public static final int OPERADORRELACIONAL = 31;
-  public static final int ERRORL = 58;
-  public static final int SELECTOR = 12;
-  public static final int IMPRIMIR = 19;
-  public static final int OPERADORASIGNAMIENTO = 32;
-  public static final int SI = 21;
+  public static final int OPERADORRELACIONAL = 30;
+  public static final int ERRORL = 57;
+  public static final int SELECTOR = 11;
+  public static final int IMPRIMIR = 18;
+  public static final int OPERADORASIGNAMIENTO = 31;
+  public static final int SI = 20;
   public static final int AGRUPACIONESTRUCTURA = 4;
-  public static final int PUNTOCOMA = 49;
-  public static final int PARAR = 25;
+  public static final int PUNTOCOMA = 48;
+  public static final int PARAR = 24;
   public static final int DECLARACIONFUNCION = 3;
-  public static final int LLAVECERRADA = 44;
-  public static final int PARENTESISCERRADO = 46;
-  public static final int SINO = 22;
-  public static final int ESCANEAR = 20;
-  public static final int MIENTRAS = 11;
+  public static final int LLAVECERRADA = 43;
+  public static final int PARENTESISCERRADO = 45;
+  public static final int SINO = 21;
+  public static final int ESCANEAR = 19;
+  public static final int MIENTRAS = 10;
   public static final int AGRUPACIONSECUNDARIA = 7;
-  public static final int DIV = 57;
-  public static final int OPERADORCONLOGICO = 36;
-  public static final int OPERADORRESULTADO = 33;
-  public static final int ATRAPAR = 17;
-  public static final int ID = 53;
+  public static final int DIV = 55;
+  public static final int OPERADORCONLOGICO = 35;
+  public static final int OPERADORRESULTADO = 32;
+  public static final int ATRAPAR = 16;
+  public static final int ID = 51;
   public static final int LISTA = 8;
   public static final int EOF = 0;
   public static final int AGRUPACIONINTERFAZ = 6;
   public static final int error = 1;
-  public static final int COMA = 48;
+  public static final int COMA = 47;
   public static final int AGRUPACIONPRINCIPAL = 2;
-  public static final int MENOS = 54;
-  public static final int PUNTODOBLE = 50;
-  public static final int CORCHETECERRADO = 42;
-  public static final int TIPOCADENA = 28;
-  public static final int INTENTAR = 16;
-  public static final int TIPOLOGICO = 27;
-  public static final int PORCADA = 15;
-  public static final int LLAVEABIERTA = 43;
-  public static final int NUMERICO = 47;
-  public static final int LITERAL = 52;
-  public static final int PUNTO = 51;
-  public static final int TIPOCARACTER = 30;
-  public static final int TIPOINFERIDO = 29;
-  public static final int PARENTESISABIERTO = 45;
-  public static final int MODIFICADORACCESO = 39;
-  public static final int MULTI = 56;
-  public static final int HACER = 10;
+  public static final int MENOS = 52;
+  public static final int PUNTODOBLE = 49;
+  public static final int CORCHETECERRADO = 41;
+  public static final int TIPOCADENA = 27;
+  public static final int INTENTAR = 15;
+  public static final int TIPOLOGICO = 26;
+  public static final int PORCADA = 14;
+  public static final int LLAVEABIERTA = 42;
+  public static final int NUMERICO = 46;
+  public static final int LITERAL = 50;
+  public static final int PUNTO = 56;
+  public static final int TIPOCARACTER = 29;
+  public static final int TIPOINFERIDO = 28;
+  public static final int PARENTESISABIERTO = 44;
+  public static final int MODIFICADORACCESO = 38;
+  public static final int HACER = 58;
+  public static final int MULTI = 54;
   public static final int AGRUPACIONENUMERATOR = 5;
-  public static final int TERMINAR = 18;
-  public static final int SINOHACER = 23;
-  public static final int PARAMETROENTRADA = 37;
-  public static final int RETORNAR = 24;
-  public static final int DEC = 40;
-  public static final int CORCHETEABIERTO = 41;
-  public static final int OPERADORTERNARIO = 35;
-  public static final int DEFECTO = 14;
-  public static final int MAS = 55;
+  public static final int TERMINAR = 17;
+  public static final int SINOHACER = 22;
+  public static final int PARAMETROENTRADA = 36;
+  public static final int RETORNAR = 23;
+  public static final int DEC = 39;
+  public static final int CORCHETEABIERTO = 40;
+  public static final int OPERADORTERNARIO = 34;
+  public static final int DEFECTO = 13;
+  public static final int MAS = 53;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -78,7 +78,6 @@ public class sym {
   "AGRUPACIONSECUNDARIA",
   "LISTA",
   "POR",
-  "HACER",
   "MIENTRAS",
   "SELECTOR",
   "CASO",
@@ -119,14 +118,15 @@ public class sym {
   "COMA",
   "PUNTOCOMA",
   "PUNTODOBLE",
-  "PUNTO",
   "LITERAL",
   "ID",
   "MENOS",
   "MAS",
   "MULTI",
   "DIV",
-  "ERRORL"
+  "PUNTO",
+  "ERRORL",
+  "HACER"
   };
 }
 

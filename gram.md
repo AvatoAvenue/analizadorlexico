@@ -24,7 +24,7 @@ if (a>b) {printo("hola");}
 bloqueexpresiones-> LLAVEABIERTA expresiones LLAVECERRADA
 expresiones-> expresion expresiones | expresion
 expresion-> sis | mientras | mientrashacer | porpuro | porcadas | intentos 
-| impresiones | escaneos | declaraciones | declaracionarreglos 
+| impresiones | escaneos | declaracion | declaracionarreglos 
 | declaracionlistas | lambdas | ternarios | retornos | rompers 
 | asignars | selectors
 
@@ -40,8 +40,6 @@ int a, int b, int c
 parametros-> parametrolista?
 parametroslista-> parametro | parametrolista COMA parametro
 parametro-> tipos ID
-
-
 
 /* espacios */ //funciona
 
@@ -99,12 +97,16 @@ public bool function conretorno(int b, int c)
 ```
 
 funciones-> funcion funciones | funcion
+
 funcion-> funcionesnormales | funcionessinretorno
+
 funcionessinretorno-> modificadoresacceso DECLARACIONFUNCION ID 
 PARENTESISABIERTO parametros PARENTESISCERRADO bloqueexpresiones
+
 funcionesnormales-> modificadoresacceso tipofuncion DECLARACIONFUNCION ID 
-PARENTESISABIERTO parametros PARENTESISCERRADO 
+PARENTESISABIERTO parametros PARENTESISCERRADO
 LLAVEABIERTA expresiones retornos LLAVECERRADA
+
 tipofuncion-> TIPONUMERICO | TIPOLOGICO | TIPOCADENA
 retornos-> RETORNAR valor PUNTOCOMA
 valor-> LITERAL | NUMERICO | ID | PARENTESISABIERTO operaritmetics PARENTESISCERRADO
@@ -119,13 +121,13 @@ struct c
 }
 ```
 
-estructuras-> AGRUPACIONESTRUCTURA ID bloqueestructura
-bloqueestructura-> LLAVEABIERTA declaraciones LLAVECERRADA
+estructuras-> AGRUPACIONESTRUCTURA ID bloquedeclaraciones
+bloquedeclaraciones-> LLAVEABIERTA declaraciones LLAVECERRADA
 
 /* enums */ //
 
 ```
-enum dias {lunes, miercoles, juevesg}
+enum dias {lunes, miercoles, jueves}
 ```
 
 enums-> AGRUPACIONENUMERATOR ID LLAVEABIERTA valores LLAVECERRADA PUNTOCOMA
@@ -138,7 +140,7 @@ interface p {
 }
 ```
 
-interfaces-> AGRUPACIONINTERFAZ ID LLAVEABIERTA declaraciones LLAVECERRADA
+interfaces-> AGRUPACIONINTERFAZ ID bloquedeclaraciones
 
 /* declaracion */ //
 
@@ -147,10 +149,10 @@ int x;
 
 int y = 0;
 ```
-
-declaraciones-> declaracion declaraciones | declaracion
-declaracion-> declarar PUNTOCOMA | declarar asignars
-declarar-> DEC tipos ID
+declaraciones-> declaracion | declaracion declaraciones
+declaracion-> DEC tipos listadeclarar PUNTOCOMA
+listadeclarar-> declarador | listadeclarar COMA declarador
+declarador-> ID | ID OPERADORASIGNAMIENTO valor
 asignars-> ID OPERADORASIGNAMIENTO valor PUNTOCOMA
 
 /* Switch */ //funciona
@@ -241,6 +243,12 @@ fur (let int i;)(i = 0;)(i>>;)[a>i]
 porpuro-> POR PARENTESISABIERTO declaracion 
 aumentodecremento condiciones PARENTESISCERRADO bloqueexpresiones
 aumentodecremento-> ID OPERADORDESPLAZAMIENTO PUNTOCOMA
+
+#porpuro ::= POR PARENTESISABIERTO declaracion PARENTESISCERRADO
+#       PARENTESISABIERTO asignars PARENTESISCERRADO
+#       PARENTESISABIERTO aumentodecremento PARENTESISCERRADO
+#       CORCHETEABIERTO condiciones CORCHETECERRADO
+#       LLAVEABIERTA expresiones LLAVECERRADA;
 
 /* foreach */ //funciona
 
@@ -342,15 +350,15 @@ listabloques PUNTOCOMA
 
 ```
 cuadrado = (x) => (x * x);
+
+(x) => (x * x)
 ```
 
-
-lambdas-> idop lambda PUNTOCOMA
-lambda-> bloqueparametros OPERADORRESULTADO cuerpolambda
-| bloqueparametro OPERADORRESULTADO cuerpolambda
-bloqueparametros-> PARENTESISABIERTO parametrolista PARENTESISCERRADO
-bloqueparametro-> PARENTESISABIERTO parametro PARENTESISCERRADO
+lambdas-> lambdaasignar PUNTOCOMA | lambdaexpr PUNTOCOMA
+lambdaasignar-> ID OPERADORASIGNAMIENTO lambdaexpr
+lambdaexpr-> bloqueparametros OPERADORRESULTADO cuerpolambda
 cuerpolambda-> bloqueexpresiones | expresion
+bloqueparametros-> PARENTESISABIERTO parametrolista PARENTESISCERRADO
 
 /* ternarios */ //
 
@@ -358,7 +366,7 @@ cuerpolambda-> bloqueexpresiones | expresion
 x = y ? "cierto" : "falso";
 ```
 
-ternarios-> idop condiciones OPERADORTERNARIO expresiones PUNTODOBLE expresiones PUNTOCOMA
+ternarios-> idop condiciones OPERADORTERNARIO valor PUNTODOBLE valor PUNTOCOMA
 
 /* operacion aritmetica */ //funciona
 

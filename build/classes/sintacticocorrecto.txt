@@ -1,7 +1,9 @@
     namespace espacio
     {
     using system;
+
     let int x;
+    let string y = "hola";
 
     public class Principal
     {
@@ -38,7 +40,7 @@
             {
                 printo(valor);
             }
-            fur (let int i;)(i = 0;)(i>>;)[a>i]
+            for (let int i = 0; i>>; a>i)
             {
                 printo("for");
             }
