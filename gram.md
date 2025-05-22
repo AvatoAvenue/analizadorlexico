@@ -1,25 +1,25 @@
 /* Lista de Instrucciones */
-1 espacios //funciona
-2 librerias //funciona
-3 clases //funciona
-4 funciones //funciona
-5 estructuras //funciona
-6 enums //funciona
-7 interfaces //funciona
-8 declaraciones //funciona
-9 sis //funciona
-10 mientras //funciona
-11 mientrashacer //funciona
-12 porpuro //funciona
-13 porcadas //funciona
-14 intentos //funciona
-15 impresiones //funciona
-16 escaneos //funciona
-17 declaracionarreglos //funciona
-18 declaracionlistas //funciona
-19 lambdas //funciona
-20 ternarios //funciona
-21 selectors //funciona
+1. espacios //funciona
+2. librerias //funciona
+3. clases //funciona
+4. funciones //funciona
+5. estructuras //funciona
+6. enums //funciona
+7. interfaces //funciona
+8. declaraciones //funciona
+9. sis //funciona
+10. mientras //funciona
+11. mientrashacer //funciona
+12. porpuro //funciona
+13. porcadas //funciona
+14. intentos //funciona
+15. impresiones //funciona
+16. escaneos //funciona
+17. declaracionarreglos //funciona
+18. declaracionlistas //funciona
+19. lambdas //funciona
+20. ternarios //funciona
+21. selectors //funciona
 
 
 
