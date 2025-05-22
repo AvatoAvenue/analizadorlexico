@@ -26,6 +26,7 @@
 /* Inicio */
 
 inicios-> incio inicios | inicio
+
 inicio-> espacios;
 
 //expresiones
@@ -38,11 +39,17 @@ if (a>b) {printo("hola");
 ```
 
 bloqueexpresiones-> LLAVEABIERTA expresiones LLAVECERRADA
+
 expresiones-> expresion expresiones | expresion
+
 expresion-> sis | mientras | mientrashacer | porpuro | porcadas | intentos 
+
 | impresiones | escaneos | declaracion | declaracionarreglos 
+
 | declaracionlistas | lambdas | ternarios | retornos | rompers 
+
 | asignars | selectors | interfaces | estructuras
+
 
 //condiciones
 
@@ -51,7 +58,9 @@ expresion-> sis | mientras | mientrashacer | porpuro | porcadas | intentos
 ```
 
 bloquecondiciones-> PARENTESISABIERTO condiciones PARENTESISCERRADO
+
 condiciones-> condicion OPERADORCONLOGICO condiciones | condicion
+
 condicion-> valor OPERADORRELACIONAL valor
 
 //Parametros
@@ -63,8 +72,11 @@ int a, int b, int c
 ```
 
 bloqueparametros-> PARENTESISABIERTO parametrolista PARENTESISCERRADO
+
 parametros-> parametrolista?
+
 parametroslista-> parametro | parametrolista COMA parametro
+
 parametro-> tipos ID
 
 //valores
@@ -72,12 +84,17 @@ parametro-> tipos ID
 ```
 [{a,b,c}]
 
+{a,b,c}
+
 a,2,0
 ```
 
 bloquevalores-> CORCHETEABIERTO listabloques CORCHETECERADO 
-                | LLAVEABIERTA valores LLAVECERRADA
+
+        | LLAVEABIERTA valores LLAVECERRADA
+
 valores-> valor | valores COMA valor
+
 valor-> LITERAL | NUMERICO | ID | bloqueoperaritmetics
 
 /* espacios */
@@ -92,10 +109,15 @@ namespace espacio
 ```
 
 espacios-> espacio espacios | espacio
+
 espacio-> AGRUPACIONPRINCIPAL ID LLAVEABIERTA libreriasopcional
-                declaracionesopcional clasesopcional LLAVECERRADA
+
+        declaracionesopcional clasesopcional LLAVECERRADA
+
 clasesopcional-> clases?
+
 libreriasopcional-> librerias?
+
 declaracionesopcional-> declaraciones?
 
 /* librerias */
@@ -105,6 +127,7 @@ using system;
 ```
 
 librerias-> libreria librerias | libreria
+
 libreria-> GESTIONRECURSOS ID PUNTOCOMA
 
 /* clase */
@@ -121,8 +144,11 @@ public class Principal
 ```
 
 clases-> clase clases | clase
+
 clase-> modificadoresacceso AGRUPACIONSECUNDARIA ID LLAVEABIERTA miembrosclase* LLAVECERRADA
+
 modificadoresacceso-> MODIFICADORACCESO?
+
 miembrosclase-> (declaraciones | enums | funciones | estructuras | interfaces)?
 
 /* funcion */
@@ -141,13 +167,19 @@ public bool function conretorno(int b, int c)
 ```
 
 funciones ::= funciones funcion | funcion;
+
 funcion ::= modificadoresacceso funcionopcional DECLARACIONFUNCION ID 
-        bloqueparametros LLAVEABIERTA expresiones 
-        retornoopcional LLAVECERRADA;
+
+    bloqueparametros LLAVEABIERTA expresiones 
+
+    retornoopcional LLAVECERRADA;
+
 retornoopcional ::= retornos?
+
 funcionopcional ::= tipofuncion?
 
 tipofuncion-> TIPONUMERICO | TIPOLOGICO | TIPOCADENA
+
 retornos-> RETORNAR valor PUNTOCOMA
 
 /* estructura */
@@ -189,10 +221,15 @@ int y = 0;
 ```
 
 bloquedeclaraciones-> LLAVEABIERTA declaraciones LLAVECERRADA
+
 declaraciones-> declaracion | declaraciones declaracion
+
 declaracion-> DEC tipos listadeclarar PUNTOCOMA
+
 listadeclarar-> declarador | listadeclarar COMA declarador
+
 declarador-> ID | ID OPERADORASIGNAMIENTO valor
+
 asignars-> ID OPERADORASIGNAMIENTO valor PUNTOCOMA
 
 /* Switch */
@@ -217,13 +254,19 @@ switch (cerveza)
 ```
 
 selectors-> selector casos defectos | selector defectos | selector casos
+
 selector-> SELECTOR PARENTESISABIERTO valor PARENTESISCERRADO
+
 casos-> caso casos | caso
+
 caso-> CASO valor PUNTODOBLE bloqueswitch
+
 defectos-> DEFECTO PUNTODOBLE bloqueswitch
 
 retornoalto-> retornos | alto
+
 alto-> PARAR PUNTOCOMA
+
 bloqueswitch-> LLAVEABIERTA expresiones retornoalto LLAVECERRADA
 
 /* If */
@@ -242,10 +285,15 @@ if (a>b)
 ```
 
 sis-> si sinoshacer sinos
+
 sinos-> sino?
+
 sinoshacer-> (sinohacer sinoshacer)?
+
 si-> SI bloquecondiciones bloqueexpresiones
+
 sinohacer-> SINOHACER bloquecondiciones bloqueexpresiones
+
 sino-> SINO bloqueexpresiones
 
 /* While */
@@ -280,7 +328,9 @@ fur (let int = 0; i>>; x>i)
 ```
 
 porpuro-> POR PARENTESISABIERTO declaracion 
+
 aumentodecremento condiciones PARENTESISCERRADO bloqueexpresiones
+
 aumentodecremento-> ID OPERADORDESPLAZAMIENTO PUNTOCOMA
 
 /* foreach */
@@ -293,7 +343,9 @@ foreach (int a in b):
 ```
 
 porcadas-> PORCADA PARENTESISABIERTO tipos ID PARAMETROENTRADA ID PARENTESISCERRADO
+
 PUNTODOBLE bloqueexpresiones
+
 tipos-> TIPOCADENA | TIPOINFERIDO | TIPONUMERICO | TIPOCARACTER
 
 /* try */
@@ -305,9 +357,13 @@ finally { expresiones; }
 ```
 
 intentos-> INTENTAR bloqueexpresiones atraparterminar
+
 atraparterminar-> atrapars terminars | atrapars | terminars
+
 atrapars-> atrapar atrapars | atrapar
+
 atrapar-> ATRAPAR bloqueexpresiones
+
 terminars-> TERMINAR bloqueexpresiones
 
 /* imprimir */
@@ -317,7 +373,9 @@ printo("hola" + a + "b");
 ```
 
 impresiones-> IMPRIMIR
-        PARENTESISABIERTO oraciones PARENTESISCERRADO PUNTOCOMA
+
+    PARENTESISABIERTO oraciones PARENTESISCERRADO PUNTOCOMA
+
 oraciones-> valor | oraciones MAS valor
 
 /* escanear */
@@ -360,11 +418,15 @@ escaneos-> ESCANEAR PARENTESISABIERTO PARENTESISCERRADO PUNTOCOMA
 ```
 
 declaracionarreglos-> tipos CORCHETEABIERTO dimensionesopcional CORCHETECERRADO
-            ID asignamientovariables PUNTOCOMA
+
+    ID asignamientovariables PUNTOCOMA
+
 asignamientovariables-> (OPERADORASIGNAMIENTO listabloques)?
 
 listabloques-> bloquevalores | listabloques COMA bloquevalores
+
 dimensionesopcional-> dimensiones?
+
 dimensiones-> NUMERICO | dimensiones COMA NUMERICO
 
 /* Lista */
@@ -376,7 +438,9 @@ List[int] compra = {frutas,manzanas,naranjas};
 ```
 
 declaracionlistas-> cuerpolista PUNTOCOMA | declaracionlista
+
 declaracionlista-> cuerpolista OPERADORASIGNAMIENTO bloquevalores PUNTOCOMA 
+
 cuerpolista-> LISTA CORCHETEABIERTO tipos CORCHETECERRADO ID
 
 /* lambda */
@@ -388,10 +452,14 @@ cuadrado = (x) => (x * x);
 ```
 
 lambdas-> ID OPERADORASIGNAMIENTO lambda PUNTOCOMA | lambda PUNTOCOMA
+
 lambda-> bloqueparametros OPERADORRESULTADO cuerpolambda
+
 cuerpolambda-> bloqueexpresiones 
-            | LLAVEABIERTA expresiones LLAVECERRADA 
-            | bloqueoperaritmetics
+
+    | LLAVEABIERTA expresiones LLAVECERRADA 
+
+    | bloqueoperaritmetics
 
 /* ternarios */
 
@@ -400,7 +468,8 @@ x = y ? "cierto" : "falso";
 ```
 
 ternarios-> ID OPERADORASIGNAMIENTO bloquecondiciones 
-            OPERADORTERNARIO valor PUNTODOBLE valor PUNTOCOMA
+
+    OPERADORTERNARIO valor PUNTODOBLE valor PUNTOCOMA
 
 /* operacion aritmetica */
 
@@ -415,9 +484,15 @@ a*c+r
 
 a-b/2
 ```
+
 bloqueoperaritmetics = PARENTESISABIERTO operaritmetics PARENTESISCERRADO
+
 operaritmetics-> operaritmetics MAS operaritmetic
-            | operaritmetics MENOS operaritmetic
-            | operaritmetic
+
+    | operaritmetics MENOS operaritmetic
+
+    | operaritmetic
+
 operaritmetic-> operaritmetic MULTI idnum | operartimetic DIV idnum | idnum
+
 idnum-> ID | NUMERICO
