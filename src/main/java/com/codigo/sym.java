@@ -14,7 +14,6 @@ public class sym {
   public static final int TIPONUMERICO = 26;
   public static final int POR = 9;
   public static final int OPERADORRELACIONAL = 31;
-  public static final int ERRORL = 57;
   public static final int SELECTOR = 11;
   public static final int IMPRIMIR = 19;
   public static final int OPERADORASIGNAMIENTO = 32;
@@ -123,8 +122,7 @@ public class sym {
   "MENOS",
   "MAS",
   "MULTI",
-  "DIV",
-  "ERRORL"
+  "DIV"
   };
 }
 

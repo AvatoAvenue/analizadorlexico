@@ -455,9 +455,7 @@ lambdas-> ID OPERADORASIGNAMIENTO lambda PUNTOCOMA | lambda PUNTOCOMA
 
 lambda-> bloqueparametros OPERADORRESULTADO cuerpolambda
 
-cuerpolambda-> bloqueexpresiones 
-
-    | LLAVEABIERTA expresiones LLAVECERRADA 
+cuerpolambda-> bloqueexpresiones | bloqueexpresiones
 
     | bloqueoperaritmetics
 

@@ -265,6 +265,6 @@ CorcheteCerrado = \]
 
 {Whitespace} { /* ignorar */ }
 
-[^] { 
+/* [^] { 
     return new Symbol(sym.ERRORL, yyline+1, yycolumn+1, yytext());
-}
+} */
