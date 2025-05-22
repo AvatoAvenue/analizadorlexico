@@ -42,13 +42,15 @@ bloqueexpresiones-> LLAVEABIERTA expresiones LLAVECERRADA
 
 expresiones-> expresion expresiones | expresion
 
-expresion-> sis | mientras | mientrashacer | porpuro | porcadas | intentos 
 
-| impresiones | escaneos | declaracion | declaracionarreglos 
+expresion ::= sis | mientras | mientrashacer | porpuro | porcadas | intentos
 
-| declaracionlistas | lambdas | ternarios | retornos | rompers 
+                | impresiones | escaneos | declaracion | declaracionarreglos
 
-| asignars | selectors | interfaces | estructuras
+                | declaracionlistas | lambdas | ternarios | asignars 
+
+                | selectors | enums
+
 
 
 //condiciones
@@ -149,7 +151,9 @@ clase-> modificadoresacceso AGRUPACIONSECUNDARIA ID LLAVEABIERTA miembrosclase* 
 
 modificadoresacceso-> MODIFICADORACCESO?
 
-miembrosclase-> (declaraciones | enums | funciones | estructuras | interfaces)?
+miembrosclase-> (miembroclase miembrosclase)?
+
+miembroclase-> declaracion | enums | funciones | estructuras | interfaces
 
 /* funcion */
 
@@ -166,17 +170,15 @@ public bool function conretorno(int b, int c)
 }
 ```
 
-funciones ::= funciones funcion | funcion;
-
-funcion ::= modificadoresacceso funcionopcional DECLARACIONFUNCION ID 
+funciones-> modificadoresacceso tipofuncionopcional DECLARACIONFUNCION ID 
 
     bloqueparametros LLAVEABIERTA expresiones 
 
-    retornoopcional LLAVECERRADA;
+    retornoopcional LLAVECERRADA
 
-retornoopcional ::= retornos?
+retornoopcional-> retornos?
 
-funcionopcional ::= tipofuncion?
+tipofuncionopcional-> tipofuncion?
 
 tipofuncion-> TIPONUMERICO | TIPOLOGICO | TIPOCADENA
 
@@ -218,6 +220,8 @@ interfaces-> AGRUPACIONINTERFAZ ID bloquedeclaraciones
 int x;
 
 int y = 0;
+
+int x = 0, y;
 ```
 
 bloquedeclaraciones-> LLAVEABIERTA declaraciones LLAVECERRADA
@@ -236,38 +240,36 @@ asignars-> ID OPERADORASIGNAMIENTO valor PUNTOCOMA
 
 ```
 switch (cerveza)
-    case 1:
     {
+    case 1:
         expresiones;
         break;
-    }
     case 2:
-    {
         expresiones;
         return a;
-    }
     default:
-    {
         expresiones;
         break;
     }
 ```
 
-selectors-> selector casos defectos | selector defectos | selector casos
+selectors-> selector LLAVEABIERTA casos defectos LLAVECERRADA
+
+            | selector LLAVEABIERTA defectos LLAVECERRADA 
+
+            | selector LLAVEABIERTA casos LLAVECERRADA
 
 selector-> SELECTOR PARENTESISABIERTO valor PARENTESISCERRADO
 
 casos-> caso casos | caso
 
-caso-> CASO valor PUNTODOBLE bloqueswitch
+caso-> CASO valor PUNTODOBLE expresiones retornoalto
 
-defectos-> DEFECTO PUNTODOBLE bloqueswitch
+defectos-> DEFECTO PUNTODOBLE expresiones retornoalto
 
 retornoalto-> retornos | alto
 
 alto-> PARAR PUNTOCOMA
-
-bloqueswitch-> LLAVEABIERTA expresiones retornoalto LLAVECERRADA
 
 /* If */
 
@@ -321,7 +323,7 @@ mientrashacer-> HACER bloquecondiciones PUNTODOBLE bloqueexpresiones
 /* For */
 
 ```
-fur (let int = 0; i>>; x>i)
+for (let int = 0; i>>; x>i)
     {
         expresiones;
     }
@@ -455,9 +457,7 @@ lambdas-> ID OPERADORASIGNAMIENTO lambda PUNTOCOMA | lambda PUNTOCOMA
 
 lambda-> bloqueparametros OPERADORRESULTADO cuerpolambda
 
-cuerpolambda-> bloqueexpresiones | bloqueexpresiones
-
-    | bloqueoperaritmetics
+cuerpolambda-> bloqueexpresiones | bloqueoperaritmetics
 
 /* ternarios */
 

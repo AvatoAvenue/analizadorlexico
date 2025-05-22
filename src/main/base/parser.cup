@@ -4,10 +4,10 @@ import java_cup.runtime.*;
 import java.util.List;
 import java.util.ArrayList;
 
+
 parser code {:
     public Lexer lexer;
-    private boolean sintaxiscorrecta = true;
-    private List<String> errores = new ArrayList<>();
+    private boolean sintaxisCorrecta = true;
 
     public Parser(Lexer lexer) {
         super(lexer);
@@ -15,42 +15,41 @@ parser code {:
     }
 
     public void syntax_error(Symbol s) {
-        sintaxiscorrecta = false;
+        sintaxisCorrecta = false;
         String errorMsg = "Error de sintaxis en línea " + (s.left + 1) +
-                        ", columna " + (s.right + 1) +
-                        ". Token inesperado: '" + s.value + "'";
+                          ", columna " + (s.right + 1) +
+                          ". Token inesperado: '" + s.value + "'";
         System.err.println(errorMsg);
-        errores.add(errorMsg);
-        }
+    }
 
     public void report_error(String message, Object info) {
         if (info instanceof Symbol) {
             Symbol s = (Symbol) info;
             if (s.sym == sym.EOF) {
-                errores.add("Error inesperado al final del archivo");
-                } else {
-                    errores.add(message);
-                }
+                System.err.println("Error inesperado al final del archivo");
+            } else {
+                System.err.println("Error: " + message);
+            }
         }
     }
 
     public boolean parseCode() {
         try {
             super.parse();
-            if (sintaxiscorrecta) {
-                System.out.println("compilación exitosa");
+            if (sintaxisCorrecta) {
+                System.out.println("Compilación exitosa");
                 return true;
-                } else {
-                    System.out.println(errores.size() + " errores encontrados:");
-                    errores.forEach(System.out::println);
-                    return false;
-                }
-            } catch (Exception e) {
-                System.out.println("Error fatal " + e.getMessage());
+            } else {
+                System.out.println("Se encontró un error de sintaxis.");
                 return false;
             }
+        } catch (Exception e) {
+            System.out.println("Error fatal: " + e.getMessage());
+            return false;
+        }
     }
 :};
+
 
 action code {:
 :}
@@ -102,9 +101,9 @@ non terminal espacio,
 
 /* reglas */
 non terminal casos, defectos, atrapars, terminars, retornos, asignars
-            , rompers, oraciones, asignamientovariables, valores
+            , oraciones, asignamientovariables, valores
             , tipos, listabloques, dimensiones, modificadoresacceso
-            , miembrosclase, bloquevalores, libreriasopcional, bloqueswitch
+            , miembrosclase, bloquevalores, libreriasopcional
             , declaracionesopcional, clasesopcional, dimensionesopcional, bloquedeclaraciones
             , sinoshacer, bloqueexpresiones, bloqueparametros, bloquecondiciones;
 
@@ -113,13 +112,12 @@ non terminal condiciones
 
 non terminal caso, declaracion
             , parametro, expresion, operaritmetic, atraparterminar, atrapar
-            , condicion, sinohacer, sinos, selector, declaracionlista, tipofuncionopcional
-            , alto, retornoalto, cuerpolambda, parametrolista, funcionopcional
+            , condicion, sinohacer, sinos, selector, declaracionlista
+            , alto, retornoalto, cuerpolambda, parametrolista, tipofuncionopcional
             , tipofuncion, valor, si, aumentodecremento, sino, retornoopcional
-            , idnum, libreria, clase, funcion, bloqueoperaritmetics, miembroclase
-            , listadeclarar, declarador, cuerpolista, lambda, declaracionopcional;
+            , idnum, libreria, clase, bloqueoperaritmetics, miembroclase
+            , declarador, cuerpolista, lambda, listadeclarar;
 
-//non terminal funcionlocales, constructores;
 /* Precedencias*/
 precedence right OPERADORTERNARIO, PUNTODOBLE;
 precedence left MAS, MENOS;
@@ -130,6 +128,7 @@ precedence left SINO, SINOHACER;
 precedence left MODIFICADORACCESO, DECLARACIONFUNCION;
 precedence left RETORNAR;
 precedence left NUMERICO, COMA;
+precedence left PARAR;
 
 /* gramatica */
 start with inicios;
@@ -141,8 +140,8 @@ bloqueexpresiones ::= LLAVEABIERTA expresiones LLAVECERRADA;
 expresiones ::= expresion expresiones | expresion;
 expresion ::= sis | mientras | mientrashacer | porpuro | porcadas | intentos
                 | impresiones | escaneos | declaracion | declaracionarreglos
-                | declaracionlistas | lambdas | ternarios | retornos
-                | rompers | asignars | selectors | enums;
+                | declaracionlistas | lambdas | ternarios | asignars 
+                | selectors | enums;
 
 bloquecondiciones ::= PARENTESISABIERTO condiciones PARENTESISCERRADO;
 condiciones ::= condicion OPERADORCONLOGICO condiciones | condicion;
@@ -183,8 +182,7 @@ miembroclase ::= declaracion | enums | funciones | estructuras | interfaces;
 
 /* funcion */
 
-funciones ::= funcion funcionopcional;
-funcion ::= modificadoresacceso tipofuncionopcional DECLARACIONFUNCION ID 
+funciones ::= modificadoresacceso tipofuncionopcional DECLARACIONFUNCION ID 
         bloqueparametros LLAVEABIERTA expresiones 
         retornoopcional LLAVECERRADA;
 retornoopcional ::= retornos | /* empty */;
@@ -192,7 +190,6 @@ tipofuncionopcional ::= tipofuncion | /* empty */;
 tipofuncion ::= TIPONUMERICO | TIPOLOGICO | TIPOCADENA;
 
 retornos ::= RETORNAR valor PUNTOCOMA;
-
 
 /* estructura */
 
@@ -210,22 +207,25 @@ interfaces ::= AGRUPACIONINTERFAZ ID bloquedeclaraciones;
 
 bloquedeclaraciones ::= LLAVEABIERTA declaraciones LLAVECERRADA;
 declaraciones ::= declaracion | declaraciones declaracion;
-declaracionopcional ::= declaracion | /* empty */;
 declaracion ::= DEC tipos listadeclarar PUNTOCOMA;
 listadeclarar ::= declarador | listadeclarar COMA declarador;
 declarador ::= ID | ID OPERADORASIGNAMIENTO valor;
+
 asignars ::= ID OPERADORASIGNAMIENTO valor PUNTOCOMA;
 
 /* Selector */
 
-selectors ::= selector casos defectos | selector defectos | selector casos;
-selector::= SELECTOR PARENTESISABIERTO valor PARENTESISCERRADO;
-casos ::= caso casos | caso ;
-caso ::= CASO valor PUNTODOBLE bloqueswitch;
+selectors ::= selector LLAVEABIERTA casos defectos LLAVECERRADA 
+                | selector LLAVEABIERTA defectos LLAVECERRADA
+                | selector LLAVEABIERTA casos LLAVECERRADA;
+selector ::= SELECTOR PARENTESISABIERTO valor PARENTESISCERRADO;
+
+casos ::= caso casos | caso;
+caso ::= CASO valor PUNTODOBLE expresiones retornoalto;
+defectos ::= DEFECTO PUNTODOBLE expresiones retornoalto;
+
 retornoalto ::= retornos | alto;
-defectos ::= DEFECTO PUNTODOBLE bloqueswitch;
 alto ::= PARAR PUNTOCOMA;
-bloqueswitch ::= LLAVEABIERTA expresiones retornoalto LLAVECERRADA;
 
 /* if */
 

@@ -950,7 +950,8 @@ public class Lexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return new Symbol(sym.ERRORL, yyline+1, yycolumn+1, yytext());
+            { System.out.println("Error lexico: " + yytext() +
+    " en la linea: " + yyline + " en la columna: "+yychar);
             }
           // fall through
           case 58: break;

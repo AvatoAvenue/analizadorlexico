@@ -265,6 +265,7 @@ CorcheteCerrado = \]
 
 {Whitespace} { /* ignorar */ }
 
-/* [^] { 
-    return new Symbol(sym.ERRORL, yyline+1, yycolumn+1, yytext());
-} */
+ [^] { 
+    System.out.println("Error lexico: " + yytext() +
+    " en la linea: " + yyline + " en la columna: "+yychar);
+}

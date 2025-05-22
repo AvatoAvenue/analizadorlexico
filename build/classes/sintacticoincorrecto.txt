@@ -1,26 +1,10 @@
-        List[int] compra = compras => [{frutas,manzanas,naranjas}];
-
-        cuadrado = (x) => (x * x);
-
-        x = y ? "cierto" : "falso";
-
-        enum dias
-        { lunes, miercoles, jueves };
-
-        struct cerveza
-        {
-            let int x;
-        }
-
-        interface personaje
-        {
-            let int a;
-        }
-
-        namespace espacio
-{
+namespace espacio
+    {
     using system;
+
     let int x;
+    let int z, y, v = 0;
+    let string y = "hola";
 
     public class Principal
     {
@@ -57,7 +41,7 @@
             {
                 printo(valor);
             }
-            fur (let int i;)(i = 0;)(i>>;)[a>i]
+            for (let int i = 0; i>>; a>i)
             {
                 printo("for");
             }
@@ -70,7 +54,7 @@
             finally { scani(); }
         }
 
-        public function declaraciones()
+        public bool function declaraciones()
         {
             int[2,3,4] precio;
 
@@ -98,46 +82,44 @@
                     ]
                 ]
             ];
-            List[int] compra = compras => 
-            {frutas,manzanas,naranjas};
 
-            cuadrado = (x) => (x * x);
-            x = y ? "cierto" : "falso";
+
+            List[int] ventas;
+            List[int] compras = {frutas,manzana,naranjas};
 
             switch (cerveza)
+            {
                 case 1:
-                {
                     printo("a");
-                    break;
-                }
+                    return a;
                 case 2:
-                {
                     printo("b");
                     break;
-                }
                 default:
-                {
                     printo("c");
                     break;
-                }
+            }
         }
     }
 
     public class Third
     {
-        enum dias
-        { lunes, miercoles, jueves }
+       enum dias = { lunes, miercoles, jueves };
+       struct cerveza
+       {
+           let int y;
+       }
 
-        struct cervezaccor
-        {
-            let int x;
-        }
+       interface personaje
+       {
+           let int a;
+       }
 
-        interface personaje
-        {
-            let int a;
-        }
+       public function fn()
+       {
+          x = (x==y) ? "cierto" : "falso";
+
+          cuadrado = (int x) => (x * x);
+       }
     }
 }
-
-

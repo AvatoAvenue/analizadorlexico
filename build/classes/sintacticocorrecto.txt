@@ -1,130 +1,94 @@
-    namespace espacio
-    {
-    using system;
-
+namespace uno
+{
+    using System;
     let int x;
-    let string y = "hola";
 
-    public class Principal
+    public class uno 
     {
-        public function main(int y)
+        enum saludos = {hola, hallo, hello};
+        struct despedidas
         {
-            if (a>b)
-            {
-                printo("hola");
-            } elif (b==a)
-            {
-                x = (y - 2);
-            } else
-            {
-                x = a;
-            }
+            let string despedida = "adios";
         }
-    }
-
-    public class Second
-    {
-        public function ciclos(int a, int b)
+        interface dias
         {
-            while (a>b):
-            {
-                printo("while");
-            }
-
-            dow (b<c):
-            {
-                printo("do while");
-            }
-
-            foreach (int a in b):
-            {
-                printo(valor);
-            }
-            for (let int i = 0; i>>; a>i)
-            {
-                printo("for");
-            }
+            let string dia = "lunes";
         }
-
-        public function intento(int x)
+        public function declaraciones()
         {
-            try { printo(saludo + "a"); }
-            catch { printo("error"); }
-            finally { scani(); }
+            let int x;
+            let string y;
         }
-
-        public bool function declaraciones()
+        private bool function operaciones(int x, int y, int z)
         {
+            x = (x * y);
+            y = (y / z + 0);
+            z = (x + y + z / 2);
+            
             int[2,3,4] precio;
-
-            int[2,3,4] precio = [
-                [
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}  
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ]
-                ],
-                [
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ]
-                ]
-            ];
-
+            int[3] cliente = {1,2,3};
 
             List[int] ventas;
             List[int] compras = {frutas,manzana,naranjas};
-
-            switch (cerveza)
-                case 1:
-                {
-                    printo("a");
-                    break;
-                }
-                case 2:
-                {
-                    printo("b");
-                    break;
-                }
-                default:
-                {
-                    printo("c");
-                    break;
-                }
         }
     }
-
-    public class Third
+    class dos
     {
-       enum dias = { lunes, miercoles, jueves };
-       struct cerveza
-       {
-           let int y;
-       }
+        public function ciclos(int a, int b)
+        {
+            try
+            {
+                if (a>b) {
+                    printo(a);
+                }
+                elif (a<b) { printo(b); }
+                else { printo(0); }
 
-       interface personaje
-       {
-           let int a;
-       }
+                while (a==b): { scani(); }
 
-       public function fn()
-       {
-          x = (x==y) ? "cierto" : "falso";
+                dow (a<=b): {
+                    a = (a + 1);
+                }
 
-          cuadrado = (int x) => (x * x);
-       }
+                for (let int i = 0; i>>; x>i) {
+                    printo(x + "mayor que" + i);
+                }
+
+                foreach (string saludo in saludos):
+                {
+                    printo(saludo);
+                }
+            }
+            catch { printo("error"); }
+            finally { printo("correcto"); }
+        }
     }
 }
+namespace dos
+{
+    using Linux;
+    let int x, y=0;
 
-
+    class tres
+    {
+        public function print()
+        {
+            printo("tres");
+        }
+    }
+    private class cuatro
+    {
+        public function scan()
+        {
+            scani();
+        }
+    }
+    protected class cinco
+    {
+        protected function operadores(int x, int y)
+        {
+            cuadrado = (int x) => (x * x);
+            x = (y<1) ? "cierto" : "falso";
+        }
+    }
+}
