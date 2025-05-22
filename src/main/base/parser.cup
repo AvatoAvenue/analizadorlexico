@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 parser code {:
-// Agrega esta línea al inicio del archivo .cup
     public Lexer lexer;
     private boolean sintaxiscorrecta = true;
     private List<String> errores = new ArrayList<>();
@@ -61,7 +60,7 @@ terminal AGRUPACIONPRINCIPAL, DECLARACIONFUNCION
         , AGRUPACIONESTRUCTURA, AGRUPACIONENUMERATOR
         , AGRUPACIONINTERFAZ, AGRUPACIONSECUNDARIA;
 terminal LISTA;
-terminal POR, MIENTRAS, SELECTOR, CASO, DEFECTO, PORCADA, INTENTAR
+terminal POR, MIENTRAS, SELECTOR, CASO, DEFECTO, PORCADA, INTENTAR, HACER
         , ATRAPAR, TERMINAR, IMPRIMIR, ESCANEAR, SI, SINO, SINOHACER;
 terminal RETORNAR, PARAR;
 terminal TIPONUMERICO, TIPOLOGICO, TIPOCADENA, TIPOINFERIDO, TIPOCARACTER;
@@ -74,53 +73,53 @@ terminal CORCHETEABIERTO, CORCHETECERRADO, LLAVEABIERTA, LLAVECERRADA
         , PUNTODOBLE, LITERAL, ID;
 terminal MENOS, MAS, MULTI, DIV;
 
-terminal PUNTO, ERRORL, HACER;
+terminal ERRORL;
 
 /* Inicio */
 non terminal inicio, inicios;
 
 /* instrucciones */
 
-non terminal espacios, //
-            librerias, //
-            clases, //
-            funciones, //
-            estructuras, //
-            enums, //
+non terminal espacios,
+            librerias,
+            clases,
+            funciones,
+            estructuras,
+            enums,
             interfaces,
-            declaraciones, //
-            sis, //
-            mientras, //
-            mientrashacer, //
-            porpuro, //
-            porcadas, //
-            intentos, //
-            impresiones, //
-            escaneos, //
-            declaracionarreglos, //
-            declaracionlistas, //
-            lambdas, //
-            ternarios, //
-            selectors; //
+            declaraciones,
+            sis,
+            mientras,
+            mientrashacer,
+            porpuro,
+            porcadas,
+            intentos,
+            impresiones,
+            escaneos,
+            declaracionarreglos,
+            declaracionlistas,
+            lambdas,
+            ternarios,
+            selectors;
 
 /* reglas */
 non terminal casos, defectos, atrapars, terminars, retornos, asignars
             , rompers, oraciones, asignamientovariables, valores
             , tipos, listabloques, dimensiones, modificadoresacceso
-            , miembrosclase, bloquevalores, libreriasopcional
+            , miembrosclase, bloquevalores, libreriasopcional, bloqueswitch
             , declaracionesopcional, clasesopcional, dimensionesopcional, bloquedeclaraciones
-            , funcionesnormales, funcionessinretorno, sinoshacer, bloqueexpresiones, bloqueparametros, bloquecondiciones;
+            , sinoshacer, bloqueexpresiones, bloqueparametros, bloquecondiciones;
 
 non terminal condiciones
             , parametros, operaritmetics, expresiones;
 
 non terminal caso, espacio, declaracion
             , parametro, expresion, operaritmetic, atraparterminar, atrapar
-            , condicion, sinohacer, sinos, selector
-            , alto, retornoalto, cuerpolambda, parametrolista
-            , tipofuncion, valor, si, aumentodecremento, sino
-            , idnum, libreria, clase, funcion, declarar
-            , listadeclarar, declarador, lambdaasignar, lambdaexpr;
+            , condicion, sinohacer, sinos, selector, declaracionlista
+            , alto, retornoalto, cuerpolambda, parametrolista, funcionopcional
+            , tipofuncion, valor, si, aumentodecremento, sino, retornoopcional
+            , idnum, libreria, clase, funcion, bloqueoperaritmetics
+            , listadeclarar, declarador, cuerpolista, lambda;
 
 //non terminal funcionlocales, constructores;
 /* Precedencias*/
@@ -151,12 +150,15 @@ bloquecondiciones ::= PARENTESISABIERTO condiciones PARENTESISCERRADO;
 condiciones ::= condicion OPERADORCONLOGICO condiciones | condicion;
 condicion ::= valor OPERADORRELACIONAL valor;
 
-bloqueparametros ::= PARENTESISABIERTO parametrolista PARENTESISCERRADO;
+bloqueparametros ::= PARENTESISABIERTO parametros PARENTESISCERRADO;
 parametros ::= parametrolista | /* empty */;
 parametrolista ::= parametro | parametrolista COMA parametro;
 parametro ::= tipos ID;
 
-bloquedeclaraciones ::= LLAVEABIERTA declaraciones LLAVECERRADA;
+bloquevalores ::= CORCHETEABIERTO listabloques CORCHETECERRADO
+                | LLAVEABIERTA valores LLAVECERRADA;
+valores ::= valor | valores COMA valor;
+valor ::= LITERAL | NUMERICO | ID | bloqueoperaritmetics;
 
 /* namespace */
 
@@ -185,17 +187,15 @@ miembrosclase ::= declaraciones miembrosclase| enums miembrosclase| funciones mi
 /* funcion */
 
 funciones ::= funciones funcion | funcion;
-funcion ::= funcionesnormales | funcionessinretorno;
-funcionessinretorno ::= modificadoresacceso DECLARACIONFUNCION ID 
-            PARENTESISABIERTO parametros PARENTESISCERRADO 
-            bloqueexpresiones;
-funcionesnormales ::= modificadoresacceso tipofuncion DECLARACIONFUNCION  ID 
-            bloqueparametros
-            LLAVEABIERTA expresiones retornos LLAVECERRADA;
+funcion ::= modificadoresacceso funcionopcional DECLARACIONFUNCION ID 
+        bloqueparametros LLAVEABIERTA expresiones 
+        retornoopcional LLAVECERRADA;
+retornoopcional ::= retornos | /* empty */;
+funcionopcional ::= tipofuncion | /* empty */;
 tipofuncion ::= TIPONUMERICO | TIPOLOGICO | TIPOCADENA;
+
 retornos ::= RETORNAR valor PUNTOCOMA;
-valor ::= LITERAL | NUMERICO | ID 
-                | PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
+
 
 /* estructura */
 
@@ -211,6 +211,7 @@ interfaces ::= AGRUPACIONINTERFAZ ID bloquedeclaraciones;
 
 /* declaracion */ 
 
+bloquedeclaraciones ::= LLAVEABIERTA declaraciones LLAVECERRADA;
 declaraciones ::= declaracion | declaraciones declaracion;
 declaracion ::= DEC tipos listadeclarar PUNTOCOMA;
 listadeclarar ::= declarador | listadeclarar COMA declarador;
@@ -218,13 +219,15 @@ declarador ::= ID | ID OPERADORASIGNAMIENTO valor;
 asignars ::= ID OPERADORASIGNAMIENTO valor PUNTOCOMA;
 
 /* Selector */
+
 selectors ::= selector casos defectos | selector defectos | selector casos;
 selector::= SELECTOR PARENTESISABIERTO valor PARENTESISCERRADO;
 casos ::= caso casos | caso ;
-caso ::= CASO valor PUNTODOBLE LLAVEABIERTA expresiones retornoalto LLAVECERRADA;
+caso ::= CASO valor PUNTODOBLE bloqueswitch;
 retornoalto ::= retornos | alto;
-defectos ::= DEFECTO PUNTODOBLE LLAVEABIERTA expresiones retornoalto LLAVECERRADA;
+defectos ::= DEFECTO PUNTODOBLE bloqueswitch;
 alto ::= PARAR PUNTOCOMA;
+bloqueswitch ::= LLAVEABIERTA expresiones retornoalto LLAVECERRADA;
 
 /* if */
 
@@ -232,7 +235,6 @@ sis ::= si sinoshacer sinos;
 
 sinos ::= /* empty */ | sino;
 sinoshacer ::= /* empty */ | sinohacer sinoshacer;
-
 
 si ::= SI bloquecondiciones bloqueexpresiones;
 
@@ -249,7 +251,6 @@ mientrashacer ::= HACER bloquecondiciones PUNTODOBLE bloqueexpresiones;
 
 /* for */
 
-
 porpuro ::= POR PARENTESISABIERTO declaracion 
 aumentodecremento condiciones PARENTESISCERRADO bloqueexpresiones;
 aumentodecremento ::= ID OPERADORDESPLAZAMIENTO PUNTOCOMA;
@@ -263,16 +264,16 @@ tipos ::= TIPOCADENA | TIPOINFERIDO | TIPONUMERICO | TIPOCARACTER;
 
 /* try */
 
-intentos ::= INTENTAR LLAVEABIERTA expresiones LLAVECERRADA atraparterminar;
+intentos ::= INTENTAR bloqueexpresiones atraparterminar;
 atraparterminar::= atrapars terminars | atrapars | terminars;
 atrapars ::= atrapar atrapars | atrapar;
-atrapar ::= ATRAPAR LLAVEABIERTA expresiones LLAVECERRADA;
-terminars ::= TERMINAR LLAVEABIERTA expresiones LLAVECERRADA;
-
+atrapar ::= ATRAPAR bloqueexpresiones;
+terminars ::= TERMINAR bloqueexpresiones;
 
 /* imprimir */
 
-impresiones ::= IMPRIMIR PARENTESISABIERTO oraciones PARENTESISCERRADO PUNTOCOMA;
+impresiones ::= IMPRIMIR 
+PARENTESISABIERTO oraciones PARENTESISCERRADO PUNTOCOMA;
 oraciones ::= valor | oraciones MAS valor;
 
 /* escanear */
@@ -284,28 +285,27 @@ escaneos ::= ESCANEAR PARENTESISABIERTO PARENTESISCERRADO PUNTOCOMA;
 declaracionarreglos ::=tipos CORCHETEABIERTO dimensionesopcional CORCHETECERRADO 
                     ID asignamientovariables PUNTOCOMA;
 asignamientovariables ::= OPERADORASIGNAMIENTO listabloques
+
                     | /* empty */;
+
 listabloques ::= bloquevalores
                 | listabloques COMA bloquevalores;
-bloquevalores ::= CORCHETEABIERTO listabloques CORCHETECERRADO
-                | LLAVEABIERTA valores LLAVECERRADA;
-valores ::= valor | valores COMA valor;
 dimensionesopcional::= dimensiones | /* empty */;
 dimensiones ::= NUMERICO | dimensiones COMA NUMERICO;
 
 /* lista */
 
-declaracionlistas ::= LISTA CORCHETEABIERTO tipos CORCHETECERRADO
-                    ID OPERADORASIGNAMIENTO ID OPERADORRESULTADO
-                    listabloques PUNTOCOMA;
+declaracionlistas ::= cuerpolista PUNTOCOMA | declaracionlista;
+declaracionlista ::= cuerpolista OPERADORASIGNAMIENTO bloquevalores PUNTOCOMA;
+cuerpolista ::= LISTA CORCHETEABIERTO tipos CORCHETECERRADO ID;
 
 /* lambda */
 
-lambdas ::= lambdaexpr;
-lambdaexpr ::= bloqueparametros OPERADORRESULTADO cuerpolambda;
+lambdas ::= ID OPERADORASIGNAMIENTO lambda PUNTOCOMA | lambda PUNTOCOMA;
+lambda ::= bloqueparametros OPERADORRESULTADO cuerpolambda;
 cuerpolambda ::= bloqueexpresiones 
-                | PARENTESISABIERTO expresion PARENTESISCERRADO 
-                | PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
+                | LLAVEABIERTA expresiones LLAVECERRADA 
+                | bloqueoperaritmetics;
 
 /* operacion ternaria */
 
@@ -313,6 +313,8 @@ ternarios ::= ID OPERADORASIGNAMIENTO bloquecondiciones OPERADORTERNARIO
                 valor PUNTODOBLE valor PUNTOCOMA;
 
 /* operacion aritmetica*/
+
+bloqueoperaritmetics ::= PARENTESISABIERTO operaritmetics PARENTESISCERRADO;
 operaritmetics ::= operaritmetics MAS operaritmetic
                 | operaritmetics MENOS operaritmetic
                 | operaritmetic;

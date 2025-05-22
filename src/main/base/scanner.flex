@@ -76,7 +76,6 @@ Modificador_Acceso = "internal" | "private" | "protected" | "public"
 Literal = \"([^\"\\]|\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})*\"
 Identificador = [a-zA-Z_][a-zA-Z0-9_]*
 Numerico = [0-9]+
-Punto = \.
 Coma = \,
 PuntoComa = \;
 PuntoDoble = \:
@@ -253,9 +252,6 @@ CorcheteCerrado = \]
 }
 {PuntoComa} { 
     return new Symbol(sym.PUNTOCOMA, yyline+1, yycolumn+1, yytext());
-}
-{Punto} { 
-    return new Symbol(sym.PUNTO, yyline+1, yycolumn+1, yytext());
 }
 {PuntoDoble} { 
     return new Symbol(sym.PUNTODOBLE, yyline+1, yycolumn+1, yytext());
