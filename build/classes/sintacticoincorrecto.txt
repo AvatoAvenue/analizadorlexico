@@ -1,125 +1,22 @@
-namespace espacio
-    {
+namespace uno
+{
     using system;
 
     let int x;
-    let int z, y, v = 0;
-    let string y = "hola";
-
-    public class Principal
+    let string y;
+    class a
     {
-        public function main(int y)
+        function a()
         {
             if (a>b)
             {
-                printo("hola");
-            } elif (b==a)
+                printo(a);
+            } 
+            function b()
             {
-                x = (y - 2);
-            } else
-            {
-                x = a;
             }
+
         }
-    }
-
-    public class Second
-    {
-        public function ciclos(int a, int b)
-        {
-            while (a>b):
-            {
-                printo("while");
-            }
-
-            dow (b<c):
-            {
-                printo("do while");
-            }
-
-            foreach (int a in b):
-            {
-                printo(valor);
-            }
-            for (let int i = 0; i>>; a>i)
-            {
-                printo("for");
-            }
-        }
-
-        public function intento(int x)
-        {
-            try { printo(saludo + "a"); }
-            catch { printo("error"); }
-            finally { scani(); }
-        }
-
-        public bool function declaraciones()
-        {
-            int[2,3,4] precio;
-
-            int[2,3,4] precio = [
-                [
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}  
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ]
-                ],
-                [
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ],
-                    [
-                        {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}
-                    ]
-                ]
-            ];
-
-
-            List[int] ventas;
-            List[int] compras = {frutas,manzana,naranjas};
-
-            switch (cerveza)
-            {
-                case 1:
-                    printo("a");
-                    return a;
-                case 2:
-                    printo("b");
-                    break;
-                default:
-                    printo("c");
-                    break;
-            }
-        }
-    }
-
-    public class Third
-    {
-       enum dias = { lunes, miercoles, jueves };
-       struct cerveza
-       {
-           let int y;
-       }
-
-       interface personaje
-       {
-           let int a;
-       }
-
-       public function fn()
-       {
-          x = (x==y) ? "cierto" : "falso";
-
-          cuadrado = (int x) => (x * x);
-       }
     }
 }
+
